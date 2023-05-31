@@ -16,8 +16,14 @@ public class ResumeProSkillEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String nameSkill;
-    @Column(nullable = false)
     private Double yearExperience;
+
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resume_id")
+    private ResumeEntity resume;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pro_skill_id")
+    private ProSkillEntity proSkill;
 }

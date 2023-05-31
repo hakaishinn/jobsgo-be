@@ -20,4 +20,13 @@ public class PaymentEntity {
     private Long id;
     private Date date_create;
     private  Integer status;
+
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recruiter_id")
+    private UserEntity recruiter;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "package_id")
+    private PackageEntity packageEntity;
 }

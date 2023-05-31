@@ -3,7 +3,6 @@ package dev.ddthanh.jobsgobe.model.entity;
 import dev.ddthanh.jobsgobe.common.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,6 +43,18 @@ public class UserEntity implements UserDetails {
     private Role role;
 
     //Relationship
+
+    @OneToMany(targetEntity = ResumeEntity.class, mappedBy = "candidate")
+    private Set<ResumeEntity> listResume;//for resume
+
+    @OneToMany(targetEntity = JobEntity.class, mappedBy = "recruiter")
+    private Set<JobEntity> listJob;//for job
+
+    @OneToMany(targetEntity = PaymentEntity.class, mappedBy = "recruiter")
+    private Set<PaymentEntity> listPayment;//for payment
+
+    @OneToMany(targetEntity = UsedPackageEntity.class, mappedBy = "recruiter")
+    private Set<UsedPackageEntity> listUsedPackage;//for usedPackage
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

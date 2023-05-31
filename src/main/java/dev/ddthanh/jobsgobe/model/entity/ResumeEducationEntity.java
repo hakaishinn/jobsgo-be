@@ -26,4 +26,9 @@ public class ResumeEducationEntity {
     private Integer graduationYear;
     @Column(columnDefinition = "text", nullable = false)
     private String description;
+
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resume_id")
+    private ResumeEntity resume;
 }

@@ -14,11 +14,20 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "tbl_used_package")
-public class UsedPackage {
+public class UsedPackageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date date_start;
     private Date date_end;
     private Integer status;
+
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recruiter_id")
+    private UserEntity recruiter;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "package_id")
+    private PackageEntity packageEntity;
 }

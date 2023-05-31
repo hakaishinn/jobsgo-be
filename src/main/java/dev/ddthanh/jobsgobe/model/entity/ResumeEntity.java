@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Builder
@@ -32,4 +33,29 @@ public class ResumeEntity {
     @Column(columnDefinition = "text")
     private String careerGoals;
 
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "candidate_id")
+    private UserEntity candidate; //for candidate(user)
+
+    @OneToMany(targetEntity = ApplyEntity.class, mappedBy = "resume")
+    private Set<ApplyEntity> listApply;//for apply
+
+    @OneToMany(targetEntity = ResumeProSkillEntity.class, mappedBy = "resume")
+    private Set<ResumeProSkillEntity> listResumeProSkill;//for resume proSkill
+
+    @OneToMany(targetEntity = ResumeWorkExperienceEntity.class, mappedBy = "resume")
+    private Set<ResumeWorkExperienceEntity> listWorkExperience;//for resume exp
+
+    @OneToMany(targetEntity = ResumeEducationEntity.class, mappedBy = "resume")
+    private Set<ResumeEducationEntity> listResumeEducation;//for resume education
+
+    @OneToMany(targetEntity = ResumeLanguageEntity.class, mappedBy = "resume")
+    private Set<ResumeLanguageEntity> listResumeLanguage;//for resume language
+
+    @OneToMany(targetEntity = ResumeSoftSkillEntity.class, mappedBy = "resume")
+    private Set<ResumeSoftSkillEntity> listResumeSoftSkill;//for resume soft skill
+
+    @OneToMany(targetEntity = ResumeHobbyEntity.class, mappedBy = "resume")
+    private Set<ResumeHobbyEntity> listResumeHobby;//for resume hobby
 }

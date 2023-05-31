@@ -6,15 +6,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_pro_skill")
-public class ProSkill {
+@Table(name = "tbl_career")
+public class CareerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    //Relationship
+    @ManyToMany(mappedBy = "listCareer")
+    private List<JobEntity> listJob;
+
+    @OneToMany(targetEntity = ProSkillEntity.class, mappedBy = "career")
+    private Set<ProSkillEntity> listProSkill;//for pro skill
 }

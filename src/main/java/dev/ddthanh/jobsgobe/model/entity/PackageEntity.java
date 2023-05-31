@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @Builder
@@ -26,4 +27,11 @@ public class PackageEntity {
     private String description;
     private Date date_create;
     private Date date_update;
+
+    //Relationship
+    @OneToMany(targetEntity = PaymentEntity.class, mappedBy = "packageEntity")
+    private Set<PaymentEntity> listPayment;//for payment
+
+    @OneToMany(targetEntity = UsedPackageEntity.class, mappedBy = "packageEntity")
+    private Set<UsedPackageEntity> listUsedPackage;//for usedPackage
 }

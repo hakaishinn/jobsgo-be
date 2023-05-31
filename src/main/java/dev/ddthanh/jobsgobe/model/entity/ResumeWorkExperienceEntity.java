@@ -29,4 +29,9 @@ public class ResumeWorkExperienceEntity {
     private boolean statusWork;
     @Column(columnDefinition = "text", nullable = false)
     private String description;
+
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resume_id")
+    private ResumeEntity resume;
 }

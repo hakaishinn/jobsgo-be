@@ -14,17 +14,21 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_language")
-public class LanguageEntity {
+@Table(name = "tbl_pro_skill")
+public class ProSkillEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
     //Relationship
-    @OneToMany(targetEntity = ResumeLanguageEntity.class, mappedBy = "language")
-    private Set<ResumeLanguageEntity> listResumeLanguage;//for resume language
+    @OneToMany(targetEntity = ResumeProSkillEntity.class, mappedBy = "proSkill")
+    private Set<ResumeProSkillEntity> listResumeProSkill;//for resume pro skill
 
-    @ManyToMany(mappedBy = "listLanguage")
-    private List<JobEntity> listJob;
+    @ManyToMany(mappedBy = "listProSkill")
+    private List<JobEntity> listJob; // for job
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "career_id")
+    private CareerEntity career;
 }
