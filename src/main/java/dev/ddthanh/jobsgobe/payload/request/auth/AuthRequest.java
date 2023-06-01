@@ -1,4 +1,4 @@
-package dev.ddthanh.jobsgobe.payload.request;
+package dev.ddthanh.jobsgobe.payload.request.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
+public class AuthRequest {
     private String email;
     private String password;
-    private String name;
-    private String role;
 }

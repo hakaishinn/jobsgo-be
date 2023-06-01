@@ -1,12 +1,10 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +16,13 @@ public class ResumeHobbyEntity {
     private Long id;
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "resume_id")
     private ResumeEntity resume;
+
+    public ResumeHobbyEntity(String name, ResumeEntity resume){
+        super();
+        this.name = name;
+        this.resume = resume;
+    }
 }

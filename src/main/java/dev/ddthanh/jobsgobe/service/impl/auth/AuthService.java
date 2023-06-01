@@ -2,12 +2,13 @@ package dev.ddthanh.jobsgobe.service.impl.auth;
 
 import dev.ddthanh.jobsgobe.common.enums.Role;
 import dev.ddthanh.jobsgobe.model.entity.UserEntity;
-import dev.ddthanh.jobsgobe.payload.request.AuthRequest;
-import dev.ddthanh.jobsgobe.payload.request.RegisterRequest;
+import dev.ddthanh.jobsgobe.payload.request.auth.AuthRequest;
+import dev.ddthanh.jobsgobe.payload.request.auth.RegisterRequest;
 import dev.ddthanh.jobsgobe.payload.response.BaseResponse;
 import dev.ddthanh.jobsgobe.payload.response.auth.AuthResponse;
 import dev.ddthanh.jobsgobe.repository.user.UserRepository;
 import dev.ddthanh.jobsgobe.security.jwt.JwtService;
+import dev.ddthanh.jobsgobe.service.iservice.AuthIService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthService implements AuthIService {
     private final AuthenticationManager authManager;
     private final UserRepository userRepository;
     private final JwtService jwtService;
