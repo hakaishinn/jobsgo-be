@@ -31,6 +31,9 @@ public class ResumeEntity {
     private String introduce;
     @Column(columnDefinition = "text")
     private String careerGoals;
+    private Date createAt;
+    private Date updateAt;
+    private boolean status;
 
     //Relationship
     @ManyToOne(fetch = FetchType.LAZY)

@@ -26,6 +26,7 @@ public class AuthService implements AuthIService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     public AuthResponse authenticate(AuthRequest request) {
+
         authManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()

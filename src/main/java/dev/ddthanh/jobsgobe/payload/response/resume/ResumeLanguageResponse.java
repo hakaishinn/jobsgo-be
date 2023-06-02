@@ -1,4 +1,4 @@
-package dev.ddthanh.jobsgobe.payload.request.resume;
+package dev.ddthanh.jobsgobe.payload.response.resume;
 
 import lombok.*;
 
@@ -7,8 +7,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResumeLanguageRequest {
+public class ResumeLanguageResponse {
     private Long id;
     private Integer prowess;
     private Long languageId;
+    private String languageName;
 }

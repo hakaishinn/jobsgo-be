@@ -1,4 +1,4 @@
-package dev.ddthanh.jobsgobe.repository.resume;
+package dev.ddthanh.jobsgobe.repository.softSkill;
 
 import dev.ddthanh.jobsgobe.model.entity.ResumeHobbyEntity;
 import dev.ddthanh.jobsgobe.model.entity.SoftSkillEntity;

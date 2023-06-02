@@ -25,6 +25,7 @@ public class ResumeRequest {
     private String introduce;
     private String careerGoals;
     private Long candidateId;
+    private boolean status;
     private Set<ResumeProSkillRequest> listResumeProSkill;
     private Set<ResumeWorkExperienceEntity> listWorkExperience;
     private Set<ResumeEducationEntity> listResumeEducation;

@@ -1,4 +1,4 @@
-package dev.ddthanh.jobsgobe.payload.request.resume;
+package dev.ddthanh.jobsgobe.payload.response.resume;
 
 import lombok.*;
 
@@ -7,8 +7,9 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResumeProSkillRequest {
+public class ResumeProSkillResponse {
     private Long id;
     private Double yearExperience;
     private Long proSkillId;
+    private String proSkillName;
 }
