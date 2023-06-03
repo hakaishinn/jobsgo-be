@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -35,13 +36,16 @@ public class JobEntity {
     private String position;
     private String positionWork;
     private Integer gender;
-    private String ageStart;
-    private String ageEnd;
+    private Integer ageStart;
+    private Integer ageEnd;
     private Double numberYearExperienceStart;
     private Double numberYearExperienceEnd;
-    private String salaryFrom;
-    private String salaryTo;
+    private Double salaryFrom;
+    private Double salaryTo;
     private String natureOfWork;
+    private Integer status;
+    private Date createAt;
+    private Date updateAt;
 
     //Relationship
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,26 +60,26 @@ public class JobEntity {
             name = "tbl_job_career",
             joinColumns = @JoinColumn(name = "job_id"),
             inverseJoinColumns = @JoinColumn(name = "career_id"))
-    private List<CareerEntity> listCareer;
+    private List<CareerEntity> listCareer; //for career
 
     @ManyToMany
     @JoinTable(
             name = "tbl_job_pro_skill",
             joinColumns = @JoinColumn(name = "job_id"),
             inverseJoinColumns = @JoinColumn(name = "pro_skill_id"))
-    private List<ProSkillEntity> listProSkill;
+    private List<ProSkillEntity> listProSkill; //for pro skill
 
     @ManyToMany
     @JoinTable(
             name = "tbl_job_soft_skill",
             joinColumns = @JoinColumn(name = "job_id"),
             inverseJoinColumns = @JoinColumn(name = "soft_skill_id"))
-    private List<SoftSkillEntity> listSoftSkill;
+    private List<SoftSkillEntity> listSoftSkill; //for soft skill
 
     @ManyToMany
     @JoinTable(
             name = "tbl_job_language",
             joinColumns = @JoinColumn(name = "job_id"),
             inverseJoinColumns = @JoinColumn(name = "language_id"))
-    private List<LanguageEntity> listLanguage;
+    private List<LanguageEntity> listLanguage; //for language
 }

@@ -5,14 +5,17 @@ import dev.ddthanh.jobsgobe.model.entity.UserEntity;
 import dev.ddthanh.jobsgobe.payload.request.auth.AuthRequest;
 import dev.ddthanh.jobsgobe.payload.request.auth.RegisterRequest;
 import dev.ddthanh.jobsgobe.payload.response.BaseResponse;
+import dev.ddthanh.jobsgobe.payload.response.Response;
 import dev.ddthanh.jobsgobe.payload.response.auth.AuthResponse;
 import dev.ddthanh.jobsgobe.repository.user.UserRepository;
 import dev.ddthanh.jobsgobe.security.jwt.JwtService;
 import dev.ddthanh.jobsgobe.service.iservice.AuthIService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,28 +28,52 @@ public class AuthService implements AuthIService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
-    public AuthResponse authenticate(AuthRequest request) {
-
+    public Response<AuthResponse> authenticate(AuthRequest request) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        UserEntity user = userRepository.findByEmail(request.getEmail()).orElse(null);
+        if(user == null){
+            return Response.<AuthResponse>builder()
+                    .setMessage("Email không tồn tại")
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .setSuccess(false)
+                    .setStatusCode(400)
+                    .build();
+        }
+        if(!passwordEncoder.matches(request.getPassword().trim(), user.getPassword())){
+            return Response.<AuthResponse>builder()
+                    .setMessage("Mật khẩu không chính xác")
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .setSuccess(false)
+                    .setStatusCode(400)
+                    .build();
+        }
         authManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
         ));
-        UserEntity user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("Email not found"));
         String accessToken = jwtService.generateToken(user);
-        return AuthResponse.builder()
-                .setUserId(user.getId())
-                .setEmail(user.getEmail())
-                .setAccessToken(accessToken)
-                .setRoles(List.of(user.getRole().name()))
+        return Response.<AuthResponse>builder()
+                .setMessage("Login successful")
+                .setData(AuthResponse.builder()
+                        .setAccessToken(accessToken)
+                        .setName(user.getName())
+                        .setUserId(user.getId())
+                        .setEmail(user.getEmail())
+                        .setRoles(List.of(user.getRole().name()))
+                        .build())
                 .build();
     }
 
 
-    public BaseResponse register(RegisterRequest request) {
-//        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-//            throw new DuplicateResourceException("userEmail", request.getEmail());
-//        }
+    public Response<BaseResponse> register(RegisterRequest request) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            return Response.<BaseResponse>builder()
+                    .setMessage("Email đã tồn tại")
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .setSuccess(false)
+                    .setStatusCode(400)
+                    .build();
+        }
         UserEntity user = UserEntity.builder()
                 .email(request.getEmail().trim().toLowerCase())
                 .password(passwordEncoder.encode(request.getPassword().trim()))
@@ -54,10 +81,12 @@ public class AuthService implements AuthIService {
                 .role(Role.of(request.getRole()))
                 .build();
         userRepository.save(user);
-        return BaseResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .name(user.getName())
+        return Response.<BaseResponse>builder()
+                .setData(BaseResponse.builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .build())
                 .build();
     }
 }

@@ -24,10 +24,4 @@ public class ResumeProSkillEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pro_skill_id")
     private ProSkillEntity proSkill;
-
-    public ResumeProSkillEntity(Double yearExperience, ResumeEntity resume, ProSkillEntity proSkill){
-        this.yearExperience = yearExperience;
-        this.resume = resume;
-        this.proSkill = proSkill;
-    }
 }

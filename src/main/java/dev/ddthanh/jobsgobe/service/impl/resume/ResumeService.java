@@ -264,6 +264,38 @@ public class ResumeService implements ResumeIService {
                 .listResumeLanguage(new HashSet<>())
                 .listResumeSoftSkill(new HashSet<>())
                 .build();
+
+        //reset list
+        for (ResumeHobbyEntity hobbyEntity: resumeOld.getListResumeHobby()) {
+            hobbyEntity.setResume(null);
+            resumeHobbyRepository.save(hobbyEntity);
+        }
+
+        for (ResumeProSkillEntity resumeProSkillEntity: resumeOld.getListResumeProSkill()) {
+            resumeProSkillEntity.setResume(null);
+            resumeProSkillRepository.save(resumeProSkillEntity);
+        }
+
+        for (ResumeWorkExperienceEntity workExperienceEntity: resumeOld.getListWorkExperience()) {
+            workExperienceEntity.setResume(null);
+            resumeWorkExpRepository.save(workExperienceEntity);
+        }
+
+        for (ResumeEducationEntity resumeEducationEntity: resumeOld.getListResumeEducation()) {
+            resumeEducationEntity.setResume(null);
+            resumeEducationRepository.save(resumeEducationEntity);
+        }
+
+        for (ResumeLanguageEntity resumeLanguageEntity: resumeOld.getListResumeLanguage()) {
+            resumeLanguageEntity.setResume(null);
+            resumeLanguageRepository.save(resumeLanguageEntity);
+        }
+
+        for (ResumeSoftSkillEntity resumeSoftSkillEntity: resumeOld.getListResumeSoftSkill()) {
+            resumeSoftSkillEntity.setResume(null);
+            resumeSoftSkillRepository.save(resumeSoftSkillEntity);
+        }
+        //end reset
         //ProSkill
         for (ResumeProSkillRequest proSkillRequest: request.getListResumeProSkill()) {
             ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkillRequest.getProSkillId()).get();
@@ -331,14 +363,21 @@ public class ResumeService implements ResumeIService {
         }
         //Hobby
         for (ResumeHobbyEntity hobby: request.getListResumeHobby()) {
-            ResumeHobbyEntity hobbyCurrent = new ResumeHobbyEntity(hobby.getName(), resume);
+            ResumeHobbyEntity hobbyEntity = new ResumeHobbyEntity();
             if(hobby.getId() != null){
-                hobbyCurrent.setId(hobby.getId());
+                hobbyEntity.setId(hobby.getId());
             }
-            resume.getListResumeHobby().add(hobbyCurrent);
+            hobbyEntity.setResume(resume);
+            hobbyEntity.setName(hobby.getName());
+            resume.getListResumeHobby().add(hobbyEntity);
         }
-        resume.getListResumeHobby().clear();
         resumeRepository.save(resume);
+        resumeProSkillRepository.deleteResumeIdNull();
+        resumeWorkExpRepository.deleteResumeIdNull();
+        resumeEducationRepository.deleteResumeIdNull();
+        resumeLanguageRepository.deleteResumeIdNull();
+        resumeSoftSkillRepository.deleteResumeIdNull();
+        resumeHobbyRepository.deleteResumeIdNull();
         return Response.<ResumeResponse>builder()
                 .setMessage("Update resume success")
                 .setData(getResumeResponse(resume))

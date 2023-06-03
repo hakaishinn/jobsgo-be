@@ -20,16 +20,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public Response<BaseResponse> register(@RequestBody RegisterRequest request) {
-        BaseResponse response = authenticationService.register(request);
-        return authConverter.successResponse(response.getId(), response.getName(), response.getEmail());
+        Response<BaseResponse> response = authenticationService.register(request);
+        return response;
     }
 
     @PostMapping("/login")
     public Response<AuthResponse> authenticateUser(@RequestBody AuthRequest request) {
-        AuthResponse response = authenticationService.authenticate(request);
-        return Response.<AuthResponse>builder()
-                .setMessage("Login successful")
-                .setData(response)
-                .build();
+        Response<AuthResponse> response = authenticationService.authenticate(request);
+        return response;
     }
 }
