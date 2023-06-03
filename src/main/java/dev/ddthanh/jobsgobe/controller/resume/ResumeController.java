@@ -54,40 +54,40 @@ public class ResumeController {
         return resumeResponse;
     }
 
-    @DeleteMapping("/resumes/proSkill/{id}")
-    @Secured("CANDIDATE")
-    public void deleteProSkill(@PathVariable Long id){
-        resumeService.deleteResumeProSkillById(id);
-    }
-
-    @DeleteMapping("/resumes/workExp/{id}")
-    @Secured("CANDIDATE")
-    public void deleteWorkExp(@PathVariable Long id){
-        resumeService.deleteResumeWorkExpById(id);
-    }
-
-    @DeleteMapping("/resumes/education/{id}")
-    @Secured("CANDIDATE")
-    public void deleteResumeEducation(@PathVariable Long id){
-        resumeService.deleteResumeEducationById(id);
-    }
-
-    @DeleteMapping("/resumes/language/{id}")
-    @Secured("CANDIDATE")
-    public void deleteResumeLanguage(@PathVariable Long id){
-        resumeService.deleteResumeLanguageById(id);
-    }
-
-    @DeleteMapping("/resumes/softSkill/{id}")
-    @Secured("CANDIDATE")
-    public void deleteResumeSoftSkill(@PathVariable Long id){
-        resumeService.deleteResumeSoftSkillById(id);
-    }
-
-    @DeleteMapping("/resumes/hobby/{id}")
-    @Secured("CANDIDATE")
-    public void deleteResumeHobby(@PathVariable Long id){
-        resumeService.deleteResumeHobbyById(id);
-    }
+//    @DeleteMapping("/resumes/proSkill/{id}")
+//    @Secured("CANDIDATE")
+//    public void deleteProSkill(@PathVariable Long id){
+//        resumeService.deleteResumeProSkillById(id);
+//    }
+//
+//    @DeleteMapping("/resumes/workExp/{id}")
+//    @Secured("CANDIDATE")
+//    public void deleteWorkExp(@PathVariable Long id){
+//        resumeService.deleteResumeWorkExpById(id);
+//    }
+//
+//    @DeleteMapping("/resumes/education/{id}")
+//    @Secured("CANDIDATE")
+//    public void deleteResumeEducation(@PathVariable Long id){
+//        resumeService.deleteResumeEducationById(id);
+//    }
+//
+//    @DeleteMapping("/resumes/language/{id}")
+//    @Secured("CANDIDATE")
+//    public void deleteResumeLanguage(@PathVariable Long id){
+//        resumeService.deleteResumeLanguageById(id);
+//    }
+//
+//    @DeleteMapping("/resumes/softSkill/{id}")
+//    @Secured("CANDIDATE")
+//    public void deleteResumeSoftSkill(@PathVariable Long id){
+//        resumeService.deleteResumeSoftSkillById(id);
+//    }
+//
+//    @DeleteMapping("/resumes/hobby/{id}")
+//    @Secured("CANDIDATE")
+//    public void deleteResumeHobby(@PathVariable Long id){
+//        resumeService.deleteResumeHobbyById(id);
+//    }
 
 }

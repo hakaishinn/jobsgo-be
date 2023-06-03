@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class ResumeWorkExperienceEntity {
     @Column(columnDefinition = "text")
     private String description;
 
+    @JsonIgnore
     //Relationship
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resume_id")

@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class ResumeEducationEntity {
     @Column(columnDefinition = "text", nullable = false)
     private String description;
 
+    @JsonIgnore
     //Relationship
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resume_id")

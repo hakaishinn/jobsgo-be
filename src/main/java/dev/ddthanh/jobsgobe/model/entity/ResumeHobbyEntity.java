@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class ResumeHobbyEntity {
     private Long id;
     private String name;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "resume_id")
     private ResumeEntity resume;
