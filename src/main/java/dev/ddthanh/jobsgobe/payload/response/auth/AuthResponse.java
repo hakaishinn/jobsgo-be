@@ -15,6 +15,7 @@ import java.util.List;
 @Builder(setterPrefix = "set")
 public class AuthResponse {
     private String accessToken;
+    private String refreshToken;
     @Builder.Default
     private String tokenType = "Bearer";
     private Long userId;

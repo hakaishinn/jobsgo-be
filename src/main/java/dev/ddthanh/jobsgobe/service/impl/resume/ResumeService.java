@@ -58,14 +58,14 @@ public class ResumeService implements ResumeIService {
                 .careerGoals(resume.getCareerGoals())
                 .createAt(resume.getCreateAt())
                 .updateAt(resume.getUpdateAt())
-                .status(resume.isStatus())
+                .status(resume.getStatus())
                 .candidateId(resume.getCandidate().getId())
                 .listResumeProSkill(resume.getListResumeProSkill().stream().map(proSkill -> {
                     return ResumeProSkillResponse.builder()
                             .id(proSkill.getId())
                             .yearExperience(proSkill.getYearExperience())
-                            .proSkillId(proSkill.getProSkill().getId())
-                            .proSkillName(proSkill.getProSkill().getName())
+                            .proSkillId(proSkill.getProSkill() != null ? proSkill.getProSkill().getId() : null)
+                            .proSkillName(proSkill.getProSkill() != null ? proSkill.getProSkill().getName() : proSkill.getName())
                             .build();
                 }).collect(Collectors.toSet()))
                 .listWorkExperience(resume.getListWorkExperience().stream().map(workExp -> {
@@ -93,16 +93,16 @@ public class ResumeService implements ResumeIService {
                     return ResumeLanguageResponse.builder()
                             .id(language.getId())
                             .prowess(language.getProwess())
-                            .languageId(language.getLanguage().getId())
-                            .languageName(language.getLanguage().getName())
+                            .languageId(language.getLanguage() != null ? language.getLanguage().getId() : null)
+                            .languageName(language.getLanguage() != null ? language.getLanguage().getName() : language.getName())
                             .build();
                 }).collect(Collectors.toSet()))
                 .listResumeSoftSkill(resume.getListResumeSoftSkill().stream().map(softSkill -> {
                     return ResumeSoftSkillResponse.builder()
                             .id(softSkill.getId())
                             .prowess(softSkill.getProwess())
-                            .softSkillId(softSkill.getSoftSkill().getId())
-                            .softSkillName(softSkill.getSoftSkill().getName())
+                            .softSkillId(softSkill.getSoftSkill() != null ? softSkill.getSoftSkill().getId() : null)
+                            .softSkillName(softSkill.getSoftSkill() != null ? softSkill.getSoftSkill().getName() : softSkill.getName())
                             .build();
                 }).collect(Collectors.toSet()))
                 .listResumeHobby(resume.getListResumeHobby().stream().map(hobby -> {
@@ -156,7 +156,7 @@ public class ResumeService implements ResumeIService {
                 .introduce(request.getIntroduce())
                 .careerGoals(request.getCareerGoals())
                 .createAt(new Date())
-                .status(request.isStatus())
+                .status(request.getStatus())
                 .candidate(candidate.get())
                 .listResumeHobby(new HashSet<>())
                 .listResumeProSkill(new HashSet<>())
@@ -167,28 +167,43 @@ public class ResumeService implements ResumeIService {
                 .build();
         //ProSkill
         for (ResumeProSkillRequest proSkill: request.getListResumeProSkill()) {
-            ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkill.getProSkillId()).get();
             ResumeProSkillEntity resumeProSkillEntity = new ResumeProSkillEntity();
             resumeProSkillEntity.setYearExperience(proSkill.getYearExperience());
             resumeProSkillEntity.setResume(resume);
-            resumeProSkillEntity.setProSkill(proSkillEntity);
+            resumeProSkillEntity.setName(proSkill.getProSkillName());
+            if(proSkill.getId() != null){
+                ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkill.getProSkillId()).orElse(null);
+                if(proSkillEntity != null){
+                    resumeProSkillEntity.setProSkill(proSkillEntity);
+                }
+            }
             resume.getListResumeProSkill().add(resumeProSkillEntity);
         }
         //Language
         for (ResumeLanguageRequest resumeLanguageRequest: request.getListResumeLanguage()) {
-            LanguageEntity languageEntity = languageRepository.findById(resumeLanguageRequest.getLanguageId()).get();
             ResumeLanguageEntity resumeLanguageEntity = new ResumeLanguageEntity();
             resumeLanguageEntity.setProwess(resumeLanguageRequest.getProwess());
-            resumeLanguageEntity.setLanguage(languageEntity);
+            resumeLanguageEntity.setName(resumeLanguageRequest.getLanguageName());
+            if(resumeLanguageRequest.getId() != null){
+                LanguageEntity languageEntity = languageRepository.findById(resumeLanguageRequest.getLanguageId()).orElse(null);
+                if(languageEntity != null){
+                    resumeLanguageEntity.setLanguage(languageEntity);
+                }
+            }
             resumeLanguageEntity.setResume(resume);
             resume.getListResumeLanguage().add(resumeLanguageEntity);
         }
         //SoftSkill
         for (ResumeSoftSkillRequest resumeSoftSkillRequest: request.getListResumeSoftSkill()) {
-            SoftSkillEntity softSkillEntity = softSkillRepository.findById(resumeSoftSkillRequest.getSoftSkillId()).get();
             ResumeSoftSkillEntity resumeSoftSkillEntity = new ResumeSoftSkillEntity();
             resumeSoftSkillEntity.setProwess(resumeSoftSkillRequest.getProwess());
-            resumeSoftSkillEntity.setSoftSkill(softSkillEntity);
+            resumeSoftSkillEntity.setName(resumeSoftSkillRequest.getSoftSkillName());
+            if(resumeSoftSkillRequest.getId() != null){
+                SoftSkillEntity softSkillEntity = softSkillRepository.findById(resumeSoftSkillRequest.getSoftSkillId()).orElse(null);
+                if(softSkillEntity != null){
+                    resumeSoftSkillEntity.setSoftSkill(softSkillEntity);
+                }
+            }
             resumeSoftSkillEntity.setResume(resume);
             resume.getListResumeSoftSkill().add(resumeSoftSkillEntity);
         }
@@ -255,7 +270,7 @@ public class ResumeService implements ResumeIService {
                 .introduce(request.getIntroduce())
                 .careerGoals(request.getCareerGoals())
                 .updateAt(new Date())
-                .status(request.isStatus())
+                .status(request.getStatus())
                 .candidate(candidate.get())
                 .listResumeHobby(new HashSet<>())
                 .listResumeProSkill(new HashSet<>())

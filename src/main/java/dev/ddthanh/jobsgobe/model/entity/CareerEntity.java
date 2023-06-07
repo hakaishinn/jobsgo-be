@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,9 +23,11 @@ public class CareerEntity {
     private String name;
 
     //Relationship
+    @JsonIgnore
     @ManyToMany(mappedBy = "listCareer")
     private List<JobEntity> listJob;
 
+    @JsonIgnore
     @OneToMany(targetEntity = ProSkillEntity.class, mappedBy = "career")
     private Set<ProSkillEntity> listProSkill;//for pro skill
 }

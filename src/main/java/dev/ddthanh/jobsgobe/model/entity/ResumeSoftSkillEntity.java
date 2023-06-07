@@ -17,6 +17,7 @@ public class ResumeSoftSkillEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer prowess;
+    private String name;
 
     //Relationship
     @ManyToOne(fetch = FetchType.LAZY)

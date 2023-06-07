@@ -52,10 +52,12 @@ public class AuthService implements AuthIService {
                 request.getPassword()
         ));
         String accessToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
         return Response.<AuthResponse>builder()
                 .setMessage("Login successful")
                 .setData(AuthResponse.builder()
                         .setAccessToken(accessToken)
+                        .setRefreshToken(refreshToken)
                         .setName(user.getName())
                         .setUserId(user.getId())
                         .setEmail(user.getEmail())

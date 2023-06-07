@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,12 +21,15 @@ public class ProSkillEntity {
     private String name;
 
     //Relationship
+    @JsonIgnore
     @OneToMany(targetEntity = ResumeProSkillEntity.class, mappedBy = "proSkill")
     private Set<ResumeProSkillEntity> listResumeProSkill;//for resume pro skill
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "listProSkill")
     private List<JobEntity> listJob; // for job
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "career_id")
     private CareerEntity career;

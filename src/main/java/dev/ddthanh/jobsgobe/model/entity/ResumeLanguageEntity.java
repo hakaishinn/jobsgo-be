@@ -17,7 +17,7 @@ public class ResumeLanguageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer prowess;
-
+    private String name;
     //Relationship
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resume_id")

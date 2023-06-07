@@ -28,16 +28,15 @@ public class JobEntity {
     @Column(columnDefinition = "text")
     private String benefit;
     private String city;
-    private String districts;
-    private String wards;
+    private String district;
+    private String ward;
     private String specificAddress;
     private String phone;
-    private String certificate;
-    private String position;
-    private String positionWork;
+    private String degree;
+    private String typePosition;
     private Integer gender;
-    private Integer ageStart;
-    private Integer ageEnd;
+    private Double ageStart;
+    private Double ageEnd;
     private Double numberYearExperienceStart;
     private Double numberYearExperienceEnd;
     private Double salaryFrom;

@@ -11,4 +11,5 @@ public class ResumeSoftSkillRequest {
     private Long id;
     private Integer prowess;
     private Long softSkillId;
+    private String softSkillName;
 }

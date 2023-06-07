@@ -1,9 +1,9 @@
 package dev.ddthanh.jobsgobe.payload.response.job;
 
-import dev.ddthanh.jobsgobe.payload.request.job.CareerRequest;
-import dev.ddthanh.jobsgobe.payload.request.job.LanguageRequest;
-import dev.ddthanh.jobsgobe.payload.request.job.ProSkillRequest;
-import dev.ddthanh.jobsgobe.payload.request.job.SoftSkillRequest;
+import dev.ddthanh.jobsgobe.model.entity.CareerEntity;
+import dev.ddthanh.jobsgobe.model.entity.LanguageEntity;
+import dev.ddthanh.jobsgobe.model.entity.ProSkillEntity;
+import dev.ddthanh.jobsgobe.model.entity.SoftSkillEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,16 +21,15 @@ public class JobResponse {
     private String required;
     private String benefit;
     private String city;
-    private String districts;
-    private String wards;
+    private String district;
+    private String ward;
     private String specificAddress;
     private String phone;
-    private String certificate;
-    private String position;
-    private String positionWork;
+    private String degree;
+    private String typePosition;
     private Integer gender;
-    private Integer ageStart;
-    private Integer ageEnd;
+    private Double ageStart;
+    private Double ageEnd;
     private Double numberYearExperienceStart;
     private Double numberYearExperienceEnd;
     private Double salaryFrom;
@@ -39,8 +38,8 @@ public class JobResponse {
     private Date createAt;
     private Date updateAt;
     private Integer status;
-    private List<CareerRequest> listCareer;
-    private List<ProSkillRequest> listProSkill;
-    private List<SoftSkillRequest> listSoftSkill;
-    private List<LanguageRequest> listLanguage;
+    private List<CareerEntity> listCareer;
+    private List<ProSkillEntity> listProSkill;
+    private List<SoftSkillEntity> listSoftSkill;
+    private List<LanguageEntity> listLanguage;
 }

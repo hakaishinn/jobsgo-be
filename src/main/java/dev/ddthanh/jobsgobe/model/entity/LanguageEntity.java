@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,9 +23,11 @@ public class LanguageEntity {
     private String name;
 
     //Relationship
+    @JsonIgnore
     @OneToMany(targetEntity = ResumeLanguageEntity.class, mappedBy = "language")
     private Set<ResumeLanguageEntity> listResumeLanguage;//for resume language
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "listLanguage")
     private List<JobEntity> listJob;
 }

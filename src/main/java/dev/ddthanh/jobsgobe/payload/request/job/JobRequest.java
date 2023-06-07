@@ -1,15 +1,9 @@
 package dev.ddthanh.jobsgobe.payload.request.job;
 
-import dev.ddthanh.jobsgobe.model.entity.CareerEntity;
-import dev.ddthanh.jobsgobe.model.entity.LanguageEntity;
-import dev.ddthanh.jobsgobe.model.entity.ProSkillEntity;
-import dev.ddthanh.jobsgobe.model.entity.SoftSkillEntity;
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -21,23 +15,22 @@ public class JobRequest {
     private String required;
     private String benefit;
     private String city;
-    private String districts;
-    private String wards;
+    private String district;
+    private String ward;
     private String specificAddress;
     private String phone;
-    private String certificate;
-    private String position;
-    private String positionWork;
+    private String degree;
+    private String typePosition;
     private Integer gender;
-    private Integer ageStart;
-    private Integer ageEnd;
+    private Double ageStart;
+    private Double ageEnd;
     private Double numberYearExperienceStart;
     private Double numberYearExperienceEnd;
     private Double salaryFrom;
     private Double salaryTo;
     private String natureOfWork;
-    private List<CareerRequest> listCareer;
-    private List<ProSkillRequest> listProSkill;
-    private List<SoftSkillRequest> listSoftSkill;
-    private List<LanguageRequest> listLanguage;
+    private List<Long> listCareer;
+    private List<Long> listProSkill;
+    private List<Long> listSoftSkill;
+    private List<Long> listLanguage;
 }

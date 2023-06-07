@@ -21,7 +21,7 @@ public class ResumeEducationEntity {
     private String majors;
     private String certificate;
     private Integer graduationYear;
-    @Column(columnDefinition = "text", nullable = false)
+    @Column(columnDefinition = "text")
     private String description;
 
     @JsonIgnore

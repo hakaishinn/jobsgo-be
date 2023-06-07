@@ -1,16 +1,12 @@
 package dev.ddthanh.jobsgobe.controller.resume;
 
-import dev.ddthanh.jobsgobe.common.enums.Role;
 import dev.ddthanh.jobsgobe.payload.request.resume.ResumeRequest;
 import dev.ddthanh.jobsgobe.payload.response.Response;
 import dev.ddthanh.jobsgobe.payload.response.resume.ResumeResponse;
 import dev.ddthanh.jobsgobe.service.impl.resume.ResumeService;
-import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

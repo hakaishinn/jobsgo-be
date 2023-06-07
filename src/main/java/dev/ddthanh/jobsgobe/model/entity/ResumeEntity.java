@@ -25,15 +25,15 @@ public class ResumeEntity {
     private String phone;
     private String email;
     private String address;
-    private String currentSalary;
-    private String desiredSalary;
+    private Double currentSalary;
+    private Double desiredSalary;
     @Column(columnDefinition = "text")
     private String introduce;
     @Column(columnDefinition = "text")
     private String careerGoals;
     private Date createAt;
     private Date updateAt;
-    private boolean status;
+    private Integer status;
 
     //Relationship
     @ManyToOne(fetch = FetchType.LAZY)

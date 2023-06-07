@@ -15,6 +15,7 @@ public class ResumeProSkillEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double yearExperience;
+    private String name;
 
     //Relationship
     @ManyToOne(fetch = FetchType.LAZY)

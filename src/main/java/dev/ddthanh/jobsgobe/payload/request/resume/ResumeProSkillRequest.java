@@ -11,4 +11,5 @@ public class ResumeProSkillRequest {
     private Long id;
     private Double yearExperience;
     private Long proSkillId;
+    private String proSkillName;
 }

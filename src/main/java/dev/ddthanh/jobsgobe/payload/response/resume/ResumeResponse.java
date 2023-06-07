@@ -26,13 +26,13 @@ public class ResumeResponse {
     private String phone;
     private String email;
     private String address;
-    private String currentSalary;
-    private String desiredSalary;
+    private Double currentSalary;
+    private Double desiredSalary;
     private String introduce;
     private String careerGoals;
     private Date createAt;
     private Date updateAt;
-    private boolean status;
+    private Integer status;
     private Long candidateId;
     private Set<ResumeProSkillResponse> listResumeProSkill;
     private Set<ResumeWorkExperienceEntity> listWorkExperience;

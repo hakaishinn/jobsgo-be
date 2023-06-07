@@ -11,4 +11,5 @@ public class ResumeLanguageRequest {
     private Long id;
     private Integer prowess;
     private Long languageId;
+    private String languageName;
 }

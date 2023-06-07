@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.service.impl.job;
 
+import dev.ddthanh.jobsgobe.common.constants.TypeJob;
 import dev.ddthanh.jobsgobe.model.entity.*;
 import dev.ddthanh.jobsgobe.payload.request.job.*;
 import dev.ddthanh.jobsgobe.payload.response.Response;
@@ -8,7 +9,6 @@ import dev.ddthanh.jobsgobe.repository.career.CareerRepository;
 import dev.ddthanh.jobsgobe.repository.job.JobRepository;
 import dev.ddthanh.jobsgobe.repository.language.LanguageRepository;
 import dev.ddthanh.jobsgobe.repository.proSkill.ProSkillRepository;
-import dev.ddthanh.jobsgobe.repository.resume.ResumeProSkillRepository;
 import dev.ddthanh.jobsgobe.repository.softSkill.SoftSkillRepository;
 import dev.ddthanh.jobsgobe.service.iservice.JobIService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +26,10 @@ public class JobService implements JobIService {
     private final JobRepository jobRepository;
     private final CareerRepository careerRepository;
     private final ProSkillRepository proSkillRepository;
-    private  final SoftSkillRepository softSkillRepository;
+    private final SoftSkillRepository softSkillRepository;
     private final LanguageRepository languageRepository;
 
-    public JobResponse getJobResponse(JobEntity job){
+    public JobResponse getJobResponse(JobEntity job) {
         return JobResponse.builder()
                 .id(job.getId())
                 .title(job.getTitle())
@@ -37,13 +37,12 @@ public class JobService implements JobIService {
                 .required(job.getRequired())
                 .benefit(job.getBenefit())
                 .city(job.getCity())
-                .districts(job.getDistricts())
-                .wards(job.getWards())
+                .district(job.getDistrict())
+                .ward(job.getWard())
                 .specificAddress(job.getSpecificAddress())
                 .phone(job.getPhone())
-                .certificate(job.getCertificate())
-                .position(job.getPosition())
-                .positionWork(job.getPositionWork())
+                .degree(job.getDegree())
+                .typePosition(job.getTypePosition())
                 .gender(job.getGender())
                 .ageStart(job.getAgeStart())
                 .ageEnd(job.getAgeEnd())
@@ -55,37 +54,61 @@ public class JobService implements JobIService {
                 .createAt(job.getCreateAt())
                 .updateAt(job.getUpdateAt())
                 .status(job.getStatus())
-                .listCareer(job.getListCareer().stream().map(careerEntity -> {
-                    return CareerRequest.builder()
-                            .id(careerEntity.getId())
-                            .name(careerEntity.getName())
-                            .build();
-                }).collect(Collectors.toList()))
-                .listProSkill(job.getListProSkill().stream().map(proSkillEntity -> {
-                    return ProSkillRequest.builder()
-                            .id(proSkillEntity.getId())
-                            .name(proSkillEntity.getName())
-                            .build();
-                }).collect(Collectors.toList()))
-                .listSoftSkill(job.getListSoftSkill().stream().map(softSkillEntity -> {
-                    return SoftSkillRequest.builder()
-                            .id(softSkillEntity.getId())
-                            .name(softSkillEntity.getName())
-                            .build();
-                }).collect(Collectors.toList()))
-                .listLanguage(job.getListLanguage().stream().map(languageEntity -> {
-                    return LanguageRequest.builder()
-                            .id(languageEntity.getId())
-                            .name(languageEntity.getName())
-                            .build();
-                }).collect(Collectors.toList()))
+                .listCareer(job.getListCareer())
+                .listProSkill(job.getListProSkill())
+                .listSoftSkill(job.getListSoftSkill())
+                .listLanguage(job.getListLanguage())
                 .build();
     }
+
     @Override
     public Response<List<JobResponse>> showAll() {
-        List<JobResponse> jobResponses = jobRepository.findAll().stream().map(jobEntity -> {
-            return getJobResponse(jobEntity);
-        }).collect(Collectors.toList());
+        List<JobResponse> jobResponses = jobRepository.findAll().stream().map(this::getJobResponse
+        ).collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(jobResponses)
+                .build();
+    }
+
+    @Override
+    public Response<List<JobResponse>> showJobApply() {
+        List<JobResponse> jobResponses = jobRepository.findAll().stream()
+                .filter(jobEntity -> jobEntity.getStatus() == TypeJob.APPLY)
+                .map(this::getJobResponse)
+                .collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(jobResponses)
+                .build();
+    }
+
+    @Override
+    public Response<List<JobResponse>> showJobPause() {
+        List<JobResponse> jobResponses = jobRepository.findAll().stream()
+                .filter(jobEntity -> jobEntity.getStatus() == TypeJob.PAUSE)
+                .map(this::getJobResponse)
+                .collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(jobResponses)
+                .build();
+    }
+
+    @Override
+    public Response<List<JobResponse>> showJobExpired() {
+        List<JobResponse> jobResponses = jobRepository.findAll().stream()
+                .filter(jobEntity -> jobEntity.getStatus() == TypeJob.EXPIRED)
+                .map(this::getJobResponse)
+                .collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(jobResponses)
+                .build();
+    }
+
+    @Override
+    public Response<List<JobResponse>> showPending() {
+        List<JobResponse> jobResponses = jobRepository.findAll().stream()
+                .filter(jobEntity -> jobEntity.getStatus() == TypeJob.PENDING)
+                .map(this::getJobResponse)
+                .collect(Collectors.toList());
         return Response.<List<JobResponse>>builder()
                 .setData(jobResponses)
                 .build();
@@ -94,7 +117,7 @@ public class JobService implements JobIService {
     @Override
     public Response<JobResponse> showOneJob(Long id) {
         JobEntity job = jobRepository.findById(id).orElse(null);
-        if(job == null) {
+        if (job == null) {
             return Response.<JobResponse>builder()
                     .setMessage("Not found")
                     .setSuccess(false)
@@ -115,13 +138,12 @@ public class JobService implements JobIService {
                 .required(request.getRequired())
                 .benefit(request.getBenefit())
                 .city(request.getCity())
-                .districts(request.getDistricts())
-                .wards(request.getWards())
+                .district(request.getDistrict())
+                .ward(request.getWard())
                 .specificAddress(request.getSpecificAddress())
                 .phone(request.getPhone())
-                .certificate(request.getCertificate())
-                .position(request.getPosition())
-                .positionWork(request.getPositionWork())
+                .degree(request.getDegree())
+                .typePosition(request.getTypePosition())
                 .gender(request.getGender())
                 .ageStart(request.getAgeStart())
                 .ageEnd(request.getAgeEnd())
@@ -131,43 +153,44 @@ public class JobService implements JobIService {
                 .salaryTo(request.getSalaryTo())
                 .natureOfWork(request.getNatureOfWork())
                 .createAt(new Date())
-                .listCareer(new ArrayList<CareerEntity>())
-                .listProSkill(new ArrayList<ProSkillEntity>())
-                .listSoftSkill(new ArrayList<SoftSkillEntity>())
-                .listLanguage(new ArrayList<LanguageEntity>())
+                .status(TypeJob.PENDING)
+                .listCareer(new ArrayList<>())
+                .listProSkill(new ArrayList<>())
+                .listSoftSkill(new ArrayList<>())
+                .listLanguage(new ArrayList<>())
                 .build();
 
         //career
-        for (CareerRequest careerRequest: request.getListCareer()) {
-            CareerEntity careerEntity = careerRepository.findById(careerRequest.getId()).orElse(null);
-            if(careerEntity != null){
+        for (Long careerId : request.getListCareer()) {
+            CareerEntity careerEntity = careerRepository.findById(careerId).orElse(null);
+            if (careerEntity != null) {
                 careerEntity.getListJob().add(job);
                 job.getListCareer().add(careerEntity);
             }
         }
 
         //pro skill
-        for (ProSkillRequest proSkillRequest : request.getListProSkill()) {
-            ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkillRequest.getId()).orElse(null);
-            if(proSkillEntity != null){
+        for (Long proSkillId : request.getListProSkill()) {
+            ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkillId).orElse(null);
+            if (proSkillEntity != null) {
                 proSkillEntity.getListJob().add(job);
                 job.getListProSkill().add(proSkillEntity);
             }
         }
 
         //soft skill
-        for (SoftSkillRequest softSkillRequest : request.getListSoftSkill()) {
-            SoftSkillEntity softSkillEntity = softSkillRepository.findById(softSkillRequest.getId()).orElse(null);
-            if(softSkillEntity != null){
+        for (Long softSkillId : request.getListSoftSkill()) {
+            SoftSkillEntity softSkillEntity = softSkillRepository.findById(softSkillId).orElse(null);
+            if (softSkillEntity != null) {
                 softSkillEntity.getListJob().add(job);
                 job.getListSoftSkill().add(softSkillEntity);
             }
         }
 
         //language
-        for (LanguageRequest languageRequest : request.getListLanguage()) {
-            LanguageEntity languageEntity = languageRepository.findById(languageRequest.getId()).orElse(null);
-            if(languageEntity != null){
+        for (Long languageId : request.getListLanguage()) {
+            LanguageEntity languageEntity = languageRepository.findById(languageId).orElse(null);
+            if (languageEntity != null) {
                 languageEntity.getListJob().add(job);
                 job.getListLanguage().add(languageEntity);
             }
@@ -181,7 +204,7 @@ public class JobService implements JobIService {
     @Override
     public Response<JobResponse> update(Long id, JobRequest request) {
         JobEntity jobOld = jobRepository.findById(id).orElse(null);
-        if(jobOld == null){
+        if (jobOld == null) {
             return Response.<JobResponse>builder()
                     .setMessage("Not found")
                     .setSuccess(false)
@@ -196,13 +219,12 @@ public class JobService implements JobIService {
                 .required(request.getRequired())
                 .benefit(request.getBenefit())
                 .city(request.getCity())
-                .districts(request.getDistricts())
-                .wards(request.getWards())
+                .district(request.getDistrict())
+                .ward(request.getWard())
                 .specificAddress(request.getSpecificAddress())
                 .phone(request.getPhone())
-                .certificate(request.getCertificate())
-                .position(request.getPosition())
-                .positionWork(request.getPositionWork())
+                .degree(request.getDegree())
+                .typePosition(request.getTypePosition())
                 .gender(request.getGender())
                 .ageStart(request.getAgeStart())
                 .ageEnd(request.getAgeEnd())
@@ -212,10 +234,10 @@ public class JobService implements JobIService {
                 .salaryTo(request.getSalaryTo())
                 .natureOfWork(request.getNatureOfWork())
                 .updateAt(new Date())
-                .listCareer(new ArrayList<CareerEntity>())
-                .listProSkill(new ArrayList<ProSkillEntity>())
-                .listSoftSkill(new ArrayList<SoftSkillEntity>())
-                .listLanguage(new ArrayList<LanguageEntity>())
+                .listCareer(new ArrayList<>())
+                .listProSkill(new ArrayList<>())
+                .listSoftSkill(new ArrayList<>())
+                .listLanguage(new ArrayList<>())
                 .build();
 
 
@@ -224,42 +246,45 @@ public class JobService implements JobIService {
         jobOld.getListSoftSkill().clear();
         jobOld.getListLanguage().clear();
         //career
-        for (CareerRequest careerRequest: request.getListCareer()) {
-            CareerEntity careerEntity = careerRepository.findById(careerRequest.getId()).orElse(null);
-            if(careerEntity != null){
+        for (Long careerId : request.getListCareer()) {
+            CareerEntity careerEntity = careerRepository.findById(careerId).orElse(null);
+            if (careerEntity != null) {
                 careerEntity.getListJob().add(job);
                 job.getListCareer().add(careerEntity);
             }
         }
 
         //pro skill
-        for (ProSkillRequest proSkillRequest : request.getListProSkill()) {
-            ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkillRequest.getId()).orElse(null);
-            if(proSkillEntity != null){
+        for (Long proSkillId : request.getListProSkill()) {
+            ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkillId).orElse(null);
+            if (proSkillEntity != null) {
                 proSkillEntity.getListJob().add(job);
                 job.getListProSkill().add(proSkillEntity);
             }
         }
 
         //soft skill
-        for (SoftSkillRequest softSkillRequest : request.getListSoftSkill()) {
-            SoftSkillEntity softSkillEntity = softSkillRepository.findById(softSkillRequest.getId()).orElse(null);
-            if(softSkillEntity != null){
+        for (Long softSkillId : request.getListSoftSkill()) {
+            SoftSkillEntity softSkillEntity = softSkillRepository.findById(softSkillId).orElse(null);
+            if (softSkillEntity != null) {
                 softSkillEntity.getListJob().add(job);
                 job.getListSoftSkill().add(softSkillEntity);
             }
         }
 
         //language
-        for (LanguageRequest languageRequest : request.getListLanguage()) {
-            LanguageEntity languageEntity = languageRepository.findById(languageRequest.getId()).orElse(null);
-            if(languageEntity != null){
+        for (Long languageId : request.getListLanguage()) {
+            LanguageEntity languageEntity = languageRepository.findById(languageId).orElse(null);
+            if (languageEntity != null) {
                 languageEntity.getListJob().add(job);
                 job.getListLanguage().add(languageEntity);
             }
         }
         jobRepository.save(job);
         return Response.<JobResponse>builder()
+                .setStatus(HttpStatus.CREATED)
+                .setStatusCode(201)
+                .setSuccess(true)
                 .setData(getJobResponse(job))
                 .build();
     }
@@ -267,5 +292,77 @@ public class JobService implements JobIService {
     @Override
     public void delete(Long id) {
         jobRepository.deleteById(id);
+    }
+
+    @Override
+    public Response<JobResponse> changeStatusApply(Long id) {
+        JobEntity job = jobRepository.findById(id).orElse(null);
+        if (job == null) {
+            return Response.<JobResponse>builder()
+                    .setMessage("Not found")
+                    .setSuccess(false)
+                    .setStatusCode(400)
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+        job.setStatus(TypeJob.APPLY);
+        jobRepository.save(job);
+        return Response.<JobResponse>builder()
+                .setData(getJobResponse(job))
+                .build();
+    }
+
+    @Override
+    public Response<JobResponse> changeStatusPause(Long id) {
+        JobEntity job = jobRepository.findById(id).orElse(null);
+        if (job == null) {
+            return Response.<JobResponse>builder()
+                    .setMessage("Not found")
+                    .setSuccess(false)
+                    .setStatusCode(400)
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+        job.setStatus(TypeJob.PAUSE);
+        jobRepository.save(job);
+        return Response.<JobResponse>builder()
+                .setData(getJobResponse(job))
+                .build();
+    }
+
+    @Override
+    public Response<JobResponse> changeStatusExpired(Long id) {
+        JobEntity job = jobRepository.findById(id).orElse(null);
+        if (job == null) {
+            return Response.<JobResponse>builder()
+                    .setMessage("Not found")
+                    .setSuccess(false)
+                    .setStatusCode(400)
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+        job.setStatus(TypeJob.EXPIRED);
+        jobRepository.save(job);
+        return Response.<JobResponse>builder()
+                .setData(getJobResponse(job))
+                .build();
+    }
+
+    @Override
+    public Response<JobResponse> changeStatusPending(Long id) {
+        JobEntity job = jobRepository.findById(id).orElse(null);
+        if (job == null) {
+            return Response.<JobResponse>builder()
+                    .setMessage("Not found")
+                    .setSuccess(false)
+                    .setStatusCode(400)
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
+        job.setStatus(TypeJob.PENDING);
+        jobRepository.save(job);
+        return Response.<JobResponse>builder()
+                .setData(getJobResponse(job))
+                .build();
     }
 }
