@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+
 @RequiredArgsConstructor
 public class SoftSkillController {
     private final SoftSkillService softSkillService;

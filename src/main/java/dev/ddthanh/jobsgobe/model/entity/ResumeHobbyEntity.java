@@ -21,10 +21,4 @@ public class ResumeHobbyEntity {
     @ManyToOne
     @JoinColumn(name = "resume_id")
     private ResumeEntity resume;
-
-    public ResumeHobbyEntity(String name, ResumeEntity resume){
-        super();
-        this.name = name;
-        this.resume = resume;
-    }
 }

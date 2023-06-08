@@ -1,14 +1,14 @@
 package dev.ddthanh.jobsgobe.payload.request.job;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class JobRequest {
     private String title;
     private String description;
