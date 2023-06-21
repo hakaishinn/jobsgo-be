@@ -19,8 +19,9 @@ public class ResumeEducationEntity {
     private Long id;
     private String nameSchool;
     private String majors;
-    private String certificate;
+    private String degree;
     private Integer graduationYear;
+    private boolean statusEducation;
     @Column(columnDefinition = "text")
     private String description;
 

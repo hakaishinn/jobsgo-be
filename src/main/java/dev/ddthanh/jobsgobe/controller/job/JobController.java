@@ -1,15 +1,19 @@
 package dev.ddthanh.jobsgobe.controller.job;
 
+import dev.ddthanh.jobsgobe.model.entity.JobEntity;
 import dev.ddthanh.jobsgobe.payload.request.job.JobRequest;
 import dev.ddthanh.jobsgobe.payload.response.Response;
+import dev.ddthanh.jobsgobe.payload.response.job.JobApplyResponse;
 import dev.ddthanh.jobsgobe.payload.response.job.JobResponse;
 import dev.ddthanh.jobsgobe.payload.response.resume.ResumeResponse;
 import dev.ddthanh.jobsgobe.service.impl.job.JobService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Parameter;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -25,9 +29,9 @@ public class JobController {
         return jobResponse;
     }
 
-    @GetMapping("/public/jobs/apply")
-    public Response<List<JobResponse>> showJobsApply() {
-        Response<List<JobResponse>> jobResponse = jobService.showJobApply();
+    @GetMapping("/public/jobs/open")
+    public Response<List<JobResponse>> showJobsOpen() {
+        Response<List<JobResponse>> jobResponse = jobService.showJobOpen();
         return jobResponse;
     }
 
@@ -92,15 +96,31 @@ public class JobController {
         return jobResponse;
     }
 
-//    @PutMapping("/jobs/changeStatusApply/{id}")
-//    @Secured("RECRUITER")
-//    public Response<JobResponse> changeStatusPending(@PathVariable Long id) {
-//        Response<JobResponse> jobResponse = jobService.changeStatusApply(id);
-//        return jobResponse;
-//    }
     @DeleteMapping("/jobs/{id}")
     @Secured({"RECRUITER", "ADMIN"})
     public void deleteById(@PathVariable Long id){
         jobService.delete(id);
+    }
+
+    @GetMapping("/jobs/apply/candidate/{id}")
+    @Secured("CANDIDATE")
+    public  Response<List<JobApplyResponse>> getAllJobApplyByCandidateId(@PathVariable Long id){
+        Response<List<JobApplyResponse>> listJob = jobService.getAllJobApplyByCandidateId(id);
+        return listJob;
+    }
+
+    @GetMapping("/public/jobs/search")
+    public Response<List<JobResponse>> search(@RequestParam(name = "keyword", required = false) String keyword,
+                                             @RequestParam(name = "address", required = false) String address){
+        return jobService.search(keyword, address);
+    }
+
+    @GetMapping("/public/jobs/careers/{id}")
+    public Response<List<JobResponse>> search(@PathVariable Long id){
+        return jobService.showJobByCareerId(id);
+    }
+    @GetMapping("/public/jobs/noExp")
+    public Response<List<JobResponse>> showJobNoExp(){
+        return jobService.showJobNoExp();
     }
 }

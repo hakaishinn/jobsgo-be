@@ -1,14 +1,13 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,15 +19,17 @@ public class ApplyEntity {
     private Long id;
     private Date date_apply;
     private Date date_approve;
-    private Date date_cancel;
+    private Date date_denied;
     private Date date_consider;
     private Integer status;
 
+    @JsonIgnore
     //Relationship
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id")
     private JobEntity job;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "resume_id")
     private ResumeEntity resume;

@@ -2,13 +2,14 @@ package dev.ddthanh.jobsgobe.service.iservice;
 
 import dev.ddthanh.jobsgobe.payload.request.job.JobRequest;
 import dev.ddthanh.jobsgobe.payload.response.Response;
+import dev.ddthanh.jobsgobe.payload.response.job.JobApplyResponse;
 import dev.ddthanh.jobsgobe.payload.response.job.JobResponse;
 
 import java.util.List;
 
 public interface JobIService {
     public Response<List<JobResponse>> showAll();
-    public Response<List<JobResponse>> showJobApply();
+    public Response<List<JobResponse>> showJobOpen();
     public Response<List<JobResponse>> showJobPause();
     public Response<List<JobResponse>> showJobExpired();
     public Response<List<JobResponse>> showPending();
@@ -23,4 +24,9 @@ public interface JobIService {
     public Response<JobResponse> changeStatusExpired(Long id);
     public Response<JobResponse> changeStatusPending(Long id);
 
+    public Response<List<JobApplyResponse>> getAllJobApplyByCandidateId(Long id);
+    public Response<List<JobResponse>> search(String keyword, String address);
+    public Response<List<JobResponse>> showJobByCareerId(Long id);
+
+    public Response<List<JobResponse>> showJobNoExp();
 }

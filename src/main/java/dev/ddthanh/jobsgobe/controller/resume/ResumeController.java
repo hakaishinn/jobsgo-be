@@ -23,6 +23,13 @@ public class ResumeController {
         Response<List<ResumeResponse>> listResponse = resumeService.showAll();
         return listResponse;
     }
+
+    @GetMapping("/resumes/candidate/{id}")
+    @Secured("CANDIDATE")
+    public Response<List<ResumeResponse>> showAllByCandidateId(@PathVariable Long id){
+        Response<List<ResumeResponse>> listResponse = resumeService.showAllByCandidateId(id);
+        return listResponse;
+    }
     @GetMapping("/resumes/{id}")
     @Secured({"CANDIDATE", "RECRUITER", "ADMIN"})
     public Response<ResumeResponse> showOneResume(@PathVariable Long id) {

@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,10 +24,12 @@ public class UsedPackageEntity {
     private Integer status;
 
     //Relationship
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recruiter_id")
     private UserEntity recruiter;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "package_id")
     private PackageEntity packageEntity;

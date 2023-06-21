@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface ResumeIService {
     public Response<List<ResumeResponse>> showAll();
+    public Response<List<ResumeResponse>> showAllByCandidateId(Long id);
     public Response<ResumeResponse> showOneResume(Long id);
     public Response<ResumeResponse> create(ResumeRequest request);
     public Response<ResumeResponse> delete(Long id);

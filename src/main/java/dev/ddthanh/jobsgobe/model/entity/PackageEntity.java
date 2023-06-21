@@ -25,6 +25,7 @@ public class PackageEntity {
     private Double price;
     private Double discount;
     private String description;
+    private Integer typePackage;
     private Date date_create;
     private Date date_update;
 

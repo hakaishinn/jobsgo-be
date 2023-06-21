@@ -24,11 +24,15 @@ public class JobRequest {
     private Integer gender;
     private Double ageStart;
     private Double ageEnd;
+    private boolean statusAge;
     private Double numberYearExperienceStart;
     private Double numberYearExperienceEnd;
+    private boolean statusExp;
     private Double salaryFrom;
     private Double salaryTo;
+    private boolean statusSalary;
     private String natureOfWork;
+    private Long recruiterId;
     private List<Long> listCareer;
     private List<Long> listProSkill;
     private List<Long> listSoftSkill;

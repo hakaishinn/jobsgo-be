@@ -1,16 +1,15 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,23 +36,30 @@ public class JobEntity {
     private Integer gender;
     private Double ageStart;
     private Double ageEnd;
+    private boolean statusAge;
     private Double numberYearExperienceStart;
     private Double numberYearExperienceEnd;
+    private boolean statusExp;
     private Double salaryFrom;
     private Double salaryTo;
+    private boolean statusSalary;
     private String natureOfWork;
     private Integer status;
     private Date createAt;
     private Date updateAt;
+    private Date expiredAt;
 
     //Relationship
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recruiter_id")
     private UserEntity recruiter; //for recruiter(user)
 
+    @JsonIgnore
     @OneToMany(targetEntity = ApplyEntity.class, mappedBy = "job")
     private Set<ApplyEntity> listApply;//for apply
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "tbl_job_career",
@@ -61,6 +67,7 @@ public class JobEntity {
             inverseJoinColumns = @JoinColumn(name = "career_id"))
     private List<CareerEntity> listCareer; //for career
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "tbl_job_pro_skill",
@@ -68,6 +75,7 @@ public class JobEntity {
             inverseJoinColumns = @JoinColumn(name = "pro_skill_id"))
     private List<ProSkillEntity> listProSkill; //for pro skill
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "tbl_job_soft_skill",
@@ -75,6 +83,7 @@ public class JobEntity {
             inverseJoinColumns = @JoinColumn(name = "soft_skill_id"))
     private List<SoftSkillEntity> listSoftSkill; //for soft skill
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "tbl_job_language",

@@ -83,8 +83,9 @@ public class ResumeService implements ResumeIService {
                                 .id(education.getId())
                                 .nameSchool(education.getNameSchool())
                                 .majors(education.getMajors())
-                                .certificate(education.getCertificate())
+                                .degree(education.getDegree())
                                 .graduationYear(education.getGraduationYear())
+                                .statusEducation(education.isStatusEducation())
                                 .description(education.getDescription())
                                 .build()
                 ).collect(Collectors.toSet()))
@@ -116,6 +117,17 @@ public class ResumeService implements ResumeIService {
     @Override
     public Response<List<ResumeResponse>> showAll() {
         List<ResumeResponse> listResume = resumeRepository.findAll()
+                .stream()
+                .map(this::getResumeResponse)
+                .collect(Collectors.toList());
+        return Response.<List<ResumeResponse>>builder()
+                .setData(listResume)
+                .build();
+    }
+
+    @Override
+    public Response<List<ResumeResponse>> showAllByCandidateId(Long id) {
+        List<ResumeResponse> listResume = resumeRepository.showAllByCandidateId(id)
                 .stream()
                 .map(this::getResumeResponse)
                 .collect(Collectors.toList());
@@ -172,7 +184,7 @@ public class ResumeService implements ResumeIService {
             resumeProSkillEntity.setYearExperience(proSkill.getYearExperience());
             resumeProSkillEntity.setResume(resume);
             resumeProSkillEntity.setName(proSkill.getProSkillName());
-            if (proSkill.getId() != null) {
+            if (proSkill.getProSkillId() != null) {
                 ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkill.getProSkillId()).orElse(null);
                 if (proSkillEntity != null) {
                     resumeProSkillEntity.setProSkill(proSkillEntity);
@@ -185,7 +197,7 @@ public class ResumeService implements ResumeIService {
             ResumeLanguageEntity resumeLanguageEntity = new ResumeLanguageEntity();
             resumeLanguageEntity.setProwess(resumeLanguageRequest.getProwess());
             resumeLanguageEntity.setName(resumeLanguageRequest.getLanguageName());
-            if (resumeLanguageRequest.getId() != null) {
+            if (resumeLanguageRequest.getLanguageId() != null) {
                 LanguageEntity languageEntity = languageRepository.findById(resumeLanguageRequest.getLanguageId()).orElse(null);
                 if (languageEntity != null) {
                     resumeLanguageEntity.setLanguage(languageEntity);
@@ -199,7 +211,7 @@ public class ResumeService implements ResumeIService {
             ResumeSoftSkillEntity resumeSoftSkillEntity = new ResumeSoftSkillEntity();
             resumeSoftSkillEntity.setProwess(resumeSoftSkillRequest.getProwess());
             resumeSoftSkillEntity.setName(resumeSoftSkillRequest.getSoftSkillName());
-            if (resumeSoftSkillRequest.getId() != null) {
+            if (resumeSoftSkillRequest.getSoftSkillId() != null) {
                 SoftSkillEntity softSkillEntity = softSkillRepository.findById(resumeSoftSkillRequest.getSoftSkillId()).orElse(null);
                 if (softSkillEntity != null) {
                     resumeSoftSkillEntity.setSoftSkill(softSkillEntity);
@@ -225,15 +237,15 @@ public class ResumeService implements ResumeIService {
             ResumeEducationEntity resumeEducationEntity = new ResumeEducationEntity();
             resumeEducationEntity.setNameSchool(educationReq.getNameSchool());
             resumeEducationEntity.setMajors(educationReq.getMajors());
-            resumeEducationEntity.setCertificate(educationReq.getCertificate());
+            resumeEducationEntity.setDegree(educationReq.getDegree());
             resumeEducationEntity.setGraduationYear(educationReq.getGraduationYear());
+            resumeEducationEntity.setStatusEducation(educationReq.isStatusEducation());
             resumeEducationEntity.setDescription(educationReq.getDescription());
             resumeEducationEntity.setResume(resume);
             resume.getListResumeEducation().add(resumeEducationEntity);
         }
         //Hobby
         for (ResumeHobbyEntity hobby : request.getListResumeHobby()) {
-//            ResumeHobbyEntity hobbyCurrent = new ResumeHobbyEntity(hobby.getName(), resume);
             ResumeHobbyEntity hobbyEntity = new ResumeHobbyEntity();
             hobbyEntity.setName(hobby.getName());
             hobbyEntity.setResume(resume);
@@ -318,37 +330,46 @@ public class ResumeService implements ResumeIService {
         //end reset
         //ProSkill
         for (ResumeProSkillRequest proSkillRequest : request.getListResumeProSkill()) {
-            ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkillRequest.getProSkillId()).orElse(null);
             ResumeProSkillEntity resumeProSkillEntity = new ResumeProSkillEntity();
             if (proSkillRequest.getId() != null) {
                 resumeProSkillEntity.setId(proSkillRequest.getId());
             }
             resumeProSkillEntity.setYearExperience(proSkillRequest.getYearExperience());
+            resumeProSkillEntity.setName(proSkillRequest.getProSkillName());
             resumeProSkillEntity.setResume(resume);
-            resumeProSkillEntity.setProSkill(proSkillEntity);
+            if(proSkillRequest.getProSkillId() != null){
+                ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkillRequest.getProSkillId()).orElse(null);
+                resumeProSkillEntity.setProSkill(proSkillEntity);
+            }
             resume.getListResumeProSkill().add(resumeProSkillEntity);
         }
         //Language
         for (ResumeLanguageRequest resumeLanguageRequest : request.getListResumeLanguage()) {
-            LanguageEntity languageEntity = languageRepository.findById(resumeLanguageRequest.getLanguageId()).orElse(null);
             ResumeLanguageEntity resumeLanguageEntity = new ResumeLanguageEntity();
             if (resumeLanguageRequest.getId() != null) {
                 resumeLanguageEntity.setId(resumeLanguageRequest.getId());
             }
             resumeLanguageEntity.setProwess(resumeLanguageRequest.getProwess());
-            resumeLanguageEntity.setLanguage(languageEntity);
+            resumeLanguageEntity.setName(resumeLanguageRequest.getLanguageName());
+            if(resumeLanguageRequest.getLanguageId() != null){
+                LanguageEntity languageEntity = languageRepository.findById(resumeLanguageRequest.getLanguageId()).orElse(null);
+                resumeLanguageEntity.setLanguage(languageEntity);
+            }
             resumeLanguageEntity.setResume(resume);
             resume.getListResumeLanguage().add(resumeLanguageEntity);
         }
         //SoftSkill
         for (ResumeSoftSkillRequest resumeSoftSkillRequest : request.getListResumeSoftSkill()) {
-            SoftSkillEntity softSkillEntity = softSkillRepository.findById(resumeSoftSkillRequest.getSoftSkillId()).orElse(null);
             ResumeSoftSkillEntity resumeSoftSkillEntity = new ResumeSoftSkillEntity();
             if (resumeSoftSkillRequest.getId() != null) {
                 resumeSoftSkillEntity.setId(resumeSoftSkillRequest.getId());
             }
             resumeSoftSkillEntity.setProwess(resumeSoftSkillRequest.getProwess());
-            resumeSoftSkillEntity.setSoftSkill(softSkillEntity);
+            resumeSoftSkillEntity.setName(resumeSoftSkillEntity.getName());
+            if(resumeSoftSkillRequest.getSoftSkillId() != null){
+                SoftSkillEntity softSkillEntity = softSkillRepository.findById(resumeSoftSkillRequest.getSoftSkillId()).orElse(null);
+                resumeSoftSkillEntity.setSoftSkill(softSkillEntity);
+            }
             resumeSoftSkillEntity.setResume(resume);
             resume.getListResumeSoftSkill().add(resumeSoftSkillEntity);
         }
@@ -375,9 +396,10 @@ public class ResumeService implements ResumeIService {
             }
             resumeEducationEntity.setNameSchool(educationReq.getNameSchool());
             resumeEducationEntity.setMajors(educationReq.getMajors());
-            resumeEducationEntity.setCertificate(educationReq.getCertificate());
+            resumeEducationEntity.setDegree(educationReq.getDegree());
             resumeEducationEntity.setGraduationYear(educationReq.getGraduationYear());
             resumeEducationEntity.setDescription(educationReq.getDescription());
+            resumeEducationEntity.setStatusEducation(resumeEducationEntity.isStatusEducation());
             resumeEducationEntity.setResume(resume);
             resume.getListResumeEducation().add(resumeEducationEntity);
         }
