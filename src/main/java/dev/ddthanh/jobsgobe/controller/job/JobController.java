@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 @RestController
 @RequestMapping("/api")
@@ -26,6 +27,12 @@ public class JobController {
     @Secured({"RECRUITER", "ADMIN"})
     public Response<List<JobResponse>> showAll() {
         Response<List<JobResponse>> jobResponse = jobService.showAll();
+        return jobResponse;
+    }
+
+    @GetMapping("/public/jobs/recruiter/{id}")
+    public Response<TreeSet<JobResponse>> showAllJobByRecruiterId(@PathVariable Long id) {
+        Response<TreeSet<JobResponse>> jobResponse = jobService.showJobByRecruiterId(id);
         return jobResponse;
     }
 
@@ -46,6 +53,13 @@ public class JobController {
     @Secured({"RECRUITER", "ADMIN"})
     public Response<List<JobResponse>> showJobsExpired() {
         Response<List<JobResponse>> jobResponse = jobService.showJobExpired();
+        return jobResponse;
+    }
+
+    @GetMapping("/jobs/denied")
+    @Secured({"RECRUITER", "ADMIN"})
+    public Response<List<JobResponse>> showJobsDenied() {
+        Response<List<JobResponse>> jobResponse = jobService.showJobDenied();
         return jobResponse;
     }
 
@@ -95,7 +109,19 @@ public class JobController {
         Response<JobResponse> jobResponse = jobService.changeStatusExpired(id);
         return jobResponse;
     }
+    @PutMapping("/jobs/changeStatusPending/{id}")
+    @Secured({"RECRUITER"})
+    public Response<JobResponse> changeStatusPending(@PathVariable Long id) {
+        Response<JobResponse> jobResponse = jobService.changeStatusPending(id);
+        return jobResponse;
+    }
 
+    @PutMapping("/jobs/changeStatusDenied/{id}")
+    @Secured({"RECRUITER", "ADMIN"})
+    public Response<JobResponse> changeStatusDenied(@PathVariable Long id){
+        Response<JobResponse> jobResponse = jobService.changeStatusDenied(id);
+        return jobResponse;
+    }
     @DeleteMapping("/jobs/{id}")
     @Secured({"RECRUITER", "ADMIN"})
     public void deleteById(@PathVariable Long id){
@@ -114,6 +140,10 @@ public class JobController {
                                              @RequestParam(name = "address", required = false) String address){
         return jobService.search(keyword, address);
     }
+    @GetMapping("/public/jobs/new")
+    public Response<List<JobResponse>> search(){
+        return jobService.getJobNew();
+    }
 
     @GetMapping("/public/jobs/careers/{id}")
     public Response<List<JobResponse>> search(@PathVariable Long id){
@@ -122,5 +152,13 @@ public class JobController {
     @GetMapping("/public/jobs/noExp")
     public Response<List<JobResponse>> showJobNoExp(){
         return jobService.showJobNoExp();
+    }
+    @GetMapping("/public/jobs/suitableJob/candidate/{id}")
+    public Response<TreeSet<JobResponse>> showSuitableJob(@PathVariable Long id){
+        return jobService.showSuitableJob(id);
+    }
+    @GetMapping("/public/jobs/featured")
+    public Response<TreeSet<JobResponse>> showJobFeatured(){
+        return jobService.showJobFeatured();
     }
 }

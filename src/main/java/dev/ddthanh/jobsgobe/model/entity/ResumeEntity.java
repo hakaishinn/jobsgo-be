@@ -35,6 +35,7 @@ public class ResumeEntity {
     private Date createAt;
     private Date updateAt;
     private Integer status;
+    private Integer template;
 
     //Relationship
     @JsonIgnore
@@ -69,4 +70,8 @@ public class ResumeEntity {
     @JsonIgnore
     @OneToMany(targetEntity = ResumeHobbyEntity.class,mappedBy = "resume", cascade = CascadeType.ALL)
     private Set<ResumeHobbyEntity> listResumeHobby;//for resume hobby
+
+    @JsonIgnore
+    @OneToMany(targetEntity = Attachments.class,mappedBy = "resume", cascade = CascadeType.ALL)
+    private Set<Attachments> listAttachments;//for Attachments
 }

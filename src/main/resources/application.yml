@@ -3,6 +3,20 @@ app:
     allowedOrigins: http://localhost:3000
 
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: thanhteo2903@gmail.com
+    password: fshgdyykathxyjfr
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
   datasource:
     url: jdbc:mysql://localhost:3306/jobsgo
     username: root

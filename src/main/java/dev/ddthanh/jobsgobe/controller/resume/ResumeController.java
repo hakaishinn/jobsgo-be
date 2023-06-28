@@ -57,6 +57,12 @@ public class ResumeController {
         return resumeResponse;
     }
 
+    @GetMapping("/public/resumes/search")
+    public Response<List<ResumeResponse>> searchCandidate(@RequestParam(name = "position", required = false) String position,
+                                                          @RequestParam(name = "specialized", required = false) String specialized,@RequestParam(name = "language", required = false) String language,@RequestParam(name = "degree", required = false) String degree){
+        return resumeService.searchCandidate(position, specialized,language,degree);
+    }
+
 //    @DeleteMapping("/resumes/proSkill/{id}")
 //    @Secured("CANDIDATE")
 //    public void deleteProSkill(@PathVariable Long id){

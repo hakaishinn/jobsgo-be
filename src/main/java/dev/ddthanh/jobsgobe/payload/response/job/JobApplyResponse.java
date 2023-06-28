@@ -17,6 +17,10 @@ public class JobApplyResponse {
     private Long id;
     private String title;
     private String image;
+    private String nameCompany;
+    private String emailCompany;
+    private String nameCandidate;
+    private String emailCandidate;
     private String description;
     private String city;
     private Double salaryFrom;

@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -455,6 +456,80 @@ public class ResumeService implements ResumeIService {
     public void deleteResumeHobbyById(Long id) {
         resumeHobbyRepository.deleteById(id);
     }
+
+    public Response<List<ResumeResponse>> searchCandidate(String position, String specialized, String language, String degree) {
+        List<ResumeResponse> listResume = new ArrayList<>();
+        if (position == null && specialized == null && language == null && degree == null) {
+            listResume = resumeRepository.findAll()
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position != null && specialized == null && language == null && degree == null) {
+            listResume = resumeRepository.searchByPosition(position)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position == null && specialized != null && language == null && degree == null) {
+            listResume = resumeRepository.searchBySpecialized(specialized)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position == null && specialized == null && language != null && degree == null) {
+            listResume = resumeRepository.searchByLanguage(language)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position == null && specialized == null && language == null && degree != null) {
+            listResume = resumeRepository.searchByDegree(degree)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position != null && specialized != null && language == null && degree == null) {
+            listResume = resumeRepository.searchByPositionAndSpecialized(position, specialized)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position != null && specialized == null && language != null && degree == null) {
+            listResume = resumeRepository.searchByPositionAndLanguage(position, language)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position != null && specialized == null && language == null && degree != null) {
+            listResume = resumeRepository.searchByPositionAndDegree(position, degree)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position == null && specialized != null && language != null && degree == null) {
+            listResume = resumeRepository.searchBySpecializedAndLanguage(specialized, language)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position == null && specialized != null && language == null && degree != null) {
+            listResume = resumeRepository.searchBySpecializedAndDegree(specialized, degree)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position == null && specialized == null && language != null && degree != null) {
+            listResume = resumeRepository.searchByLanguageAndDegree(language, degree)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position != null && specialized != null && language != null && degree == null) {
+            listResume = resumeRepository.searchByPositionAndSpecializedAndLanguage(position, specialized, language)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position != null && specialized != null && language == null && degree != null) {
+            listResume = resumeRepository.searchByPositionAndSpecializedAndDegree(position, specialized, degree)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position != null && specialized == null && language != null && degree != null) {
+            listResume = resumeRepository.searchByPositionAndLanguageAndDegree(position, language, degree)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position == null && specialized != null && language != null && degree != null) {
+            listResume = resumeRepository.searchBySpecializedAndLanguageAndDegree(specialized, language, degree)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        } else if (position != null && specialized != null && language != null && degree != null) {
+            listResume = resumeRepository.searchByPositionAndSpecializedAndLanguageAndDegree(position, specialized, language, degree)
+                    .stream()
+                    .map(this::getResumeResponse).collect(Collectors.toList());
+        }
+        return Response.<List<ResumeResponse>>builder()
+                .setMessage("get data success")
+                .setData(listResume)
+                .build();
+    }
+
 
     @Override
     public Response<ResumeResponse> delete(Long id) {

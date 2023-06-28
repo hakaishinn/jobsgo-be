@@ -2,14 +2,12 @@ package dev.ddthanh.jobsgobe.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +17,11 @@ public class PaymentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date_create;
-    private  Integer status;
+    private String vnpTxnRef;
+    private Date dateCreate;
+    private Long quantity;
+    private Long total;
+    private boolean status;
 
     //Relationship
     @JsonIgnore

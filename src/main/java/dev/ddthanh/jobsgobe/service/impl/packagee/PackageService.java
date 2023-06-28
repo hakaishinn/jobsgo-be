@@ -3,7 +3,7 @@ import dev.ddthanh.jobsgobe.model.entity.*;
 import dev.ddthanh.jobsgobe.payload.request.packagee.PackageRequest;
 import dev.ddthanh.jobsgobe.payload.response.Response;
 import dev.ddthanh.jobsgobe.payload.response.packagee.PackageRespone;
-import dev.ddthanh.jobsgobe.repository.packagee.PackageeRepository;
+import dev.ddthanh.jobsgobe.repository.packagee.PackageRepository;
 import dev.ddthanh.jobsgobe.service.iservice.PackageIService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PackageService implements PackageIService {
-    private final PackageeRepository packageRepository;
+    private final PackageRepository packageRepository;
     public PackageRespone getPackageResponse(PackageEntity packagee){
         return PackageRespone.builder()
                 .id(packagee.getId())

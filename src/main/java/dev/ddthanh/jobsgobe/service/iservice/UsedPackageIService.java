@@ -1,0 +1,11 @@
+package dev.ddthanh.jobsgobe.service.iservice;
+
+import dev.ddthanh.jobsgobe.model.entity.UsedPackageEntity;
+import dev.ddthanh.jobsgobe.payload.response.Response;
+
+public interface UsedPackageIService {
+    public Response<UsedPackageEntity> create(Long packageId, Long recruiterId, String vnpTxnRef);
+    public Response<UsedPackageEntity> updateStatus(String vnpTxnRef, boolean status);
+    public Response<UsedPackageEntity> checkUsedPackage(Long id);
+    public void cancelAllPackageByRecruiterId(Long id);
+}

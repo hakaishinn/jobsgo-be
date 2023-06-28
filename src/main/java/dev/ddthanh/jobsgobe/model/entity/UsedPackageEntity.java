@@ -19,9 +19,10 @@ public class UsedPackageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String vnpTxnRef;
     private Date date_start;
     private Date date_end;
-    private Integer status;
+    private boolean status;
 
     //Relationship
     @JsonIgnore

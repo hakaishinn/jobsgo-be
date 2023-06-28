@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class JobResponse{
+public class JobResponse implements Comparable<JobResponse>{
     private Long id;
     private String title;
     private String description;
@@ -48,4 +48,10 @@ public class JobResponse{
     private List<ProSkillEntity> listProSkill;
     private List<SoftSkillEntity> listSoftSkill;
     private List<LanguageEntity> listLanguage;
+
+    @Override
+    public int compareTo(JobResponse o) {
+        if(this.id.equals(o.id)) return 0;
+        return 1;
+    }
 }

@@ -23,4 +23,5 @@ public interface ResumeIService {
     public void deleteResumeSoftSkillById(Long id);
     public void deleteResumeHobbyById(Long id);
 
+    public Response<List<ResumeResponse>> searchCandidate(String position, String specialized, String language, String degree);
 }

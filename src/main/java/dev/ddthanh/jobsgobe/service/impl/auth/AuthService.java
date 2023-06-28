@@ -61,6 +61,7 @@ public class AuthService implements AuthIService {
                         .setName(user.getName())
                         .setUserId(user.getId())
                         .setEmail(user.getEmail())
+                        .setImage(user.getImage())
                         .setRoles(List.of(user.getRole().name()))
                         .build())
                 .build();
@@ -82,6 +83,9 @@ public class AuthService implements AuthIService {
                 .name(request.getName())
                 .role(Role.of(request.getRole()))
                 .build();
+        if(request.getRole().equals("RECRUITER")){
+            user.setEmailCompany(request.getEmail());
+        }
         userRepository.save(user);
         return Response.<BaseResponse>builder()
                 .setData(BaseResponse.builder()

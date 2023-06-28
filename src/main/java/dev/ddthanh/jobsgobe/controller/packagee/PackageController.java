@@ -11,36 +11,38 @@ import java.util.List;
 @RequestMapping("/api")
 @CrossOrigin
 @RequiredArgsConstructor
-public class PackageeController {
-    private final PackageService packageeService;
+public class PackageController {
+    private final PackageService packageService;
     @GetMapping("/packages")
+    @Secured({"RECRUITER", "ADMIN"})
     public Response<List<PackageRespone>>showAll(){
-        Response<List<PackageRespone>> packResponse = packageeService.showAll();
+        Response<List<PackageRespone>> packResponse = packageService.showAll();
         return packResponse;
     }
     @GetMapping("package/{id}")
+    @Secured({"RECRUITER", "ADMIN"})
     public Response<PackageRespone> showOnePackage(@PathVariable Long id) {
-        Response<PackageRespone> packResponse = packageeService.showOnePackage(id);
+        Response<PackageRespone> packResponse = packageService.showOnePackage(id);
         return packResponse;
     }
 
     @PostMapping("/package")
     @Secured({"RECRUITER", "ADMIN"})
     public Response<PackageRespone> create(@RequestBody PackageRequest request) {
-        Response<PackageRespone> packResponse = packageeService.create(request);
+        Response<PackageRespone> packResponse = packageService.create(request);
         return packResponse;
     }
 
     @PutMapping("/package/update/{id}")
     @Secured({"RECRUITER", "ADMIN"})
     public Response<PackageRespone> update(@PathVariable Long id, @RequestBody PackageRequest request) {
-        Response<PackageRespone> packResponse = packageeService.update(id, request);
+        Response<PackageRespone> packResponse = packageService.update(id, request);
         return packResponse;
     }
     @DeleteMapping("/package-delete/{id}")
     @Secured({"RECRUITER", "ADMIN"})
     public void deleteById(@PathVariable Long id){
-        packageeService.delete(id);
+        packageService.delete(id);
     }
 }
 
