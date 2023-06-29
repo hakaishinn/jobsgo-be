@@ -40,6 +40,7 @@ public class ResumeService implements ResumeIService {
     private final ResumeSoftSkillRepository resumeSoftSkillRepository;
     private final ResumeHobbyRepository resumeHobbyRepository;
     private final ResumeEducationRepository resumeEducationRepository;
+    private final AttachmentsRepository attachmentsRepository;
 
     public ResumeResponse getResumeResponse(ResumeEntity resume) {
         return ResumeResponse.builder()
@@ -110,6 +111,13 @@ public class ResumeService implements ResumeIService {
                         ResumeHobbyEntity.builder()
                                 .id(hobby.getId())
                                 .name(hobby.getName())
+                                .build()
+                ).collect(Collectors.toSet()))
+                .listAttachments(resume.getListAttachments().stream().map(attachmentsEntity ->
+                        AttachmentsEntity.builder()
+                                .id(attachmentsEntity.getId())
+                                .name(attachmentsEntity.getName())
+                                .url(attachmentsEntity.getUrl())
                                 .build()
                 ).collect(Collectors.toSet()))
                 .build();
@@ -252,6 +260,14 @@ public class ResumeService implements ResumeIService {
             hobbyEntity.setResume(resume);
             resume.getListResumeHobby().add(hobbyEntity);
         }
+        //Attachments
+        for (AttachmentsEntity attachmentsReq : request.getListAttachments()) {
+            AttachmentsEntity attachmentsEntity = new AttachmentsEntity();
+            attachmentsEntity.setResume(resume);
+            attachmentsEntity.setName(attachmentsReq.getName());
+            attachmentsEntity.setUrl(attachmentsReq.getUrl());
+            resume.getListAttachments().add(attachmentsEntity);
+        }
         resumeRepository.save(resume);
         return Response.<ResumeResponse>builder()
                 .setMessage("Create resume success")
@@ -296,6 +312,7 @@ public class ResumeService implements ResumeIService {
                 .listResumeEducation(new HashSet<>())
                 .listResumeLanguage(new HashSet<>())
                 .listResumeSoftSkill(new HashSet<>())
+                .listAttachments(new HashSet<>())
                 .build();
 
         //reset list
@@ -328,6 +345,11 @@ public class ResumeService implements ResumeIService {
             resumeSoftSkillEntity.setResume(null);
             resumeSoftSkillRepository.save(resumeSoftSkillEntity);
         }
+
+        for (AttachmentsEntity attachmentsEntity : resumeOld.getListAttachments()) {
+            attachmentsEntity.setResume(null);
+            attachmentsRepository.save(attachmentsEntity);
+        }
         //end reset
         //ProSkill
         for (ResumeProSkillRequest proSkillRequest : request.getListResumeProSkill()) {
@@ -338,7 +360,7 @@ public class ResumeService implements ResumeIService {
             resumeProSkillEntity.setYearExperience(proSkillRequest.getYearExperience());
             resumeProSkillEntity.setName(proSkillRequest.getProSkillName());
             resumeProSkillEntity.setResume(resume);
-            if(proSkillRequest.getProSkillId() != null){
+            if (proSkillRequest.getProSkillId() != null) {
                 ProSkillEntity proSkillEntity = proSkillRepository.findById(proSkillRequest.getProSkillId()).orElse(null);
                 resumeProSkillEntity.setProSkill(proSkillEntity);
             }
@@ -352,7 +374,7 @@ public class ResumeService implements ResumeIService {
             }
             resumeLanguageEntity.setProwess(resumeLanguageRequest.getProwess());
             resumeLanguageEntity.setName(resumeLanguageRequest.getLanguageName());
-            if(resumeLanguageRequest.getLanguageId() != null){
+            if (resumeLanguageRequest.getLanguageId() != null) {
                 LanguageEntity languageEntity = languageRepository.findById(resumeLanguageRequest.getLanguageId()).orElse(null);
                 resumeLanguageEntity.setLanguage(languageEntity);
             }
@@ -367,7 +389,7 @@ public class ResumeService implements ResumeIService {
             }
             resumeSoftSkillEntity.setProwess(resumeSoftSkillRequest.getProwess());
             resumeSoftSkillEntity.setName(resumeSoftSkillEntity.getName());
-            if(resumeSoftSkillRequest.getSoftSkillId() != null){
+            if (resumeSoftSkillRequest.getSoftSkillId() != null) {
                 SoftSkillEntity softSkillEntity = softSkillRepository.findById(resumeSoftSkillRequest.getSoftSkillId()).orElse(null);
                 resumeSoftSkillEntity.setSoftSkill(softSkillEntity);
             }
@@ -414,6 +436,18 @@ public class ResumeService implements ResumeIService {
             hobbyEntity.setName(hobby.getName());
             resume.getListResumeHobby().add(hobbyEntity);
         }
+        //Attachments
+        for (AttachmentsEntity attachmentsReq : request.getListAttachments()) {
+            AttachmentsEntity attachmentsEntity = new AttachmentsEntity();
+            if (attachmentsReq.getId() != null) {
+                attachmentsEntity.setId(attachmentsReq.getId());
+            }
+            attachmentsEntity.setResume(resume);
+            attachmentsEntity.setName(attachmentsReq.getName());
+            attachmentsEntity.setUrl(attachmentsReq.getUrl());
+            resume.getListAttachments().add(attachmentsEntity);
+        }
+
         resumeRepository.save(resume);
         resumeProSkillRepository.deleteResumeIdNull();
         resumeWorkExpRepository.deleteResumeIdNull();
@@ -421,6 +455,7 @@ public class ResumeService implements ResumeIService {
         resumeLanguageRepository.deleteResumeIdNull();
         resumeSoftSkillRepository.deleteResumeIdNull();
         resumeHobbyRepository.deleteResumeIdNull();
+        attachmentsRepository.deleteResumeIdNull();
         return Response.<ResumeResponse>builder()
                 .setMessage("Update resume success")
                 .setData(getResumeResponse(resume))

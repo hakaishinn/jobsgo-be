@@ -32,4 +32,5 @@ public class ResumeRequest {
     private Set<ResumeLanguageRequest> listResumeLanguage;
     private Set<ResumeSoftSkillRequest> listResumeSoftSkill;
     private Set<ResumeHobbyEntity> listResumeHobby;
+    private Set<AttachmentsEntity> listAttachments;
 }

@@ -11,8 +11,9 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "tbl_attachments")
-public class Attachments {
+public class AttachmentsEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String url;

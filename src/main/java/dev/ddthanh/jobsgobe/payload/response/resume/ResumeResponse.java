@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.payload.response.resume;
 
+import dev.ddthanh.jobsgobe.model.entity.AttachmentsEntity;
 import dev.ddthanh.jobsgobe.model.entity.ResumeEducationEntity;
 import dev.ddthanh.jobsgobe.model.entity.ResumeHobbyEntity;
 import dev.ddthanh.jobsgobe.model.entity.ResumeWorkExperienceEntity;
@@ -40,4 +41,5 @@ public class ResumeResponse {
     private Set<ResumeLanguageResponse> listResumeLanguage;
     private Set<ResumeSoftSkillResponse> listResumeSoftSkill;
     private Set<ResumeHobbyEntity> listResumeHobby;
+    private Set<AttachmentsEntity> listAttachments;
 }

@@ -72,6 +72,6 @@ public class ResumeEntity {
     private Set<ResumeHobbyEntity> listResumeHobby;//for resume hobby
 
     @JsonIgnore
-    @OneToMany(targetEntity = Attachments.class,mappedBy = "resume", cascade = CascadeType.ALL)
-    private Set<Attachments> listAttachments;//for Attachments
+    @OneToMany(targetEntity = AttachmentsEntity.class,mappedBy = "resume", cascade = CascadeType.ALL)
+    private Set<AttachmentsEntity> listAttachments;//for Attachments
 }
