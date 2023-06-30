@@ -103,7 +103,7 @@ public class ApplyService implements ApplyIService {
                 .careerGoals(resume.getCareerGoals())
                 .createAt(resume.getCreateAt())
                 .updateAt(resume.getUpdateAt())
-                .status(resume.getStatus())
+                .isPublic(resume.isPublic())
                 .candidateId(resume.getCandidate().getId())
                 .nameJobApply(getJobResponse(apply.getJob()).getTitle())
                 .jobId(getJobResponse(apply.getJob()).getId())

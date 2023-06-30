@@ -41,11 +41,23 @@ public class JobController {
         Response<List<JobResponse>> jobResponse = jobService.showJobOpen();
         return jobResponse;
     }
+    @GetMapping("/jobs/open/recruiter/{id}")
+    @Secured({"RECRUITER", "ADMIN"})
+    public Response<List<JobResponse>> showJobsOpenByRecruiterId(@PathVariable Long id) {
+        Response<List<JobResponse>> jobResponse = jobService.showJobOpenByRecruiterId(id);
+        return jobResponse;
+    }
 
     @GetMapping("/jobs/pause")
     @Secured({"RECRUITER", "ADMIN"})
     public Response<List<JobResponse>> showJobsPause() {
         Response<List<JobResponse>> jobResponse = jobService.showJobPause();
+        return jobResponse;
+    }
+    @GetMapping("/jobs/pause/recruiter/{id}")
+    @Secured({"RECRUITER", "ADMIN"})
+    public Response<List<JobResponse>> showJobsPauseByRecruiterId(@PathVariable Long id) {
+        Response<List<JobResponse>> jobResponse = jobService.showJobPauseByRecruiterId(id);
         return jobResponse;
     }
 
@@ -55,6 +67,12 @@ public class JobController {
         Response<List<JobResponse>> jobResponse = jobService.showJobExpired();
         return jobResponse;
     }
+    @GetMapping("/jobs/expired/recruiter/{id}")
+    @Secured({"RECRUITER", "ADMIN"})
+    public Response<List<JobResponse>> showJobsExpiredByRecruiterId(@PathVariable Long id) {
+        Response<List<JobResponse>> jobResponse = jobService.showJobExpiredByRecruiterId(id);
+        return jobResponse;
+    }
 
     @GetMapping("/jobs/denied")
     @Secured({"RECRUITER", "ADMIN"})
@@ -62,11 +80,23 @@ public class JobController {
         Response<List<JobResponse>> jobResponse = jobService.showJobDenied();
         return jobResponse;
     }
+    @GetMapping("/jobs/denied/recruiter/{id}")
+    @Secured({"RECRUITER", "ADMIN"})
+    public Response<List<JobResponse>> showJobsDeniedByRecruiterId(@PathVariable Long id) {
+        Response<List<JobResponse>> jobResponse = jobService.showJobDeniedByRecruiterId(id);
+        return jobResponse;
+    }
 
     @GetMapping("/jobs/pending")
     @Secured({"RECRUITER", "ADMIN"})
     public Response<List<JobResponse>> showJobsPending() {
         Response<List<JobResponse>> jobResponse = jobService.showPending();
+        return jobResponse;
+    }
+    @GetMapping("/jobs/pending/recruiter/{id}")
+    @Secured({"RECRUITER", "ADMIN"})
+    public Response<List<JobResponse>> showJobsPendingByRecruiterId(@PathVariable Long id) {
+        Response<List<JobResponse>> jobResponse = jobService.showPendingByRecruiterId(id);
         return jobResponse;
     }
     @GetMapping("/public/jobs/{id}")
@@ -155,7 +185,7 @@ public class JobController {
     }
     @GetMapping("/public/jobs/suitableJob/candidate/{id}")
     public Response<TreeSet<JobResponse>> showSuitableJob(@PathVariable Long id){
-        return jobService.showSuitableJob(id);
+        return jobService.showSuitableJobByCandidateId(id);
     }
     @GetMapping("/public/jobs/featured")
     public Response<TreeSet<JobResponse>> showJobFeatured(){

@@ -59,7 +59,7 @@ public class ResumeService implements ResumeIService {
                 .careerGoals(resume.getCareerGoals())
                 .createAt(resume.getCreateAt())
                 .updateAt(resume.getUpdateAt())
-                .status(resume.getStatus())
+                .isPublic(resume.isPublic())
                 .candidateId(resume.getCandidate().getId())
                 .listResumeProSkill(resume.getListResumeProSkill().stream().map(proSkill ->
                         ResumeProSkillResponse.builder()
@@ -178,14 +178,16 @@ public class ResumeService implements ResumeIService {
                 .introduce(request.getIntroduce())
                 .careerGoals(request.getCareerGoals())
                 .createAt(new Date())
-                .status(request.getStatus())
+                .isPublic(true)
                 .candidate(candidate)
+                .template(1)
                 .listResumeHobby(new HashSet<>())
                 .listResumeProSkill(new HashSet<>())
                 .listWorkExperience(new HashSet<>())
                 .listResumeEducation(new HashSet<>())
                 .listResumeLanguage(new HashSet<>())
                 .listResumeSoftSkill(new HashSet<>())
+                .listAttachments(new HashSet<>())
                 .build();
         //ProSkill
         for (ResumeProSkillRequest proSkill : request.getListResumeProSkill()) {
@@ -304,7 +306,6 @@ public class ResumeService implements ResumeIService {
                 .introduce(request.getIntroduce())
                 .careerGoals(request.getCareerGoals())
                 .updateAt(new Date())
-                .status(request.getStatus())
                 .candidate(candidate)
                 .listResumeHobby(new HashSet<>())
                 .listResumeProSkill(new HashSet<>())

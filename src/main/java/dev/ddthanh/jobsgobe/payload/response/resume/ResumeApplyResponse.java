@@ -30,7 +30,7 @@ public class ResumeApplyResponse {
     private String careerGoals;
     private Date createAt;
     private Date updateAt;
-    private Integer status;
+    private boolean isPublic;
     private Long candidateId;
     private String nameJobApply;
     private Long jobId;

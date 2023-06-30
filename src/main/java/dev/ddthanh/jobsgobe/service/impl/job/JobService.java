@@ -143,9 +143,33 @@ public class JobService implements JobIService {
     }
 
     @Override
+    public Response<List<JobResponse>> showJobOpenByRecruiterId(Long id) {
+        List<JobResponse> jobResponses = jobRepository.findAll().stream()
+                .filter(jobEntity ->
+                        jobEntity.getStatus() == TypeJob.APPLY
+                                && jobEntity.getRecruiter().getId().equals(id))
+                .map(this::getJobResponse)
+                .collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(jobResponses)
+                .build();
+    }
+
+    @Override
     public Response<List<JobResponse>> showJobPause() {
         List<JobResponse> jobResponses = jobRepository.findAll().stream()
                 .filter(jobEntity -> jobEntity.getStatus() == TypeJob.PAUSE)
+                .map(this::getJobResponse)
+                .collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(jobResponses)
+                .build();
+    }
+
+    @Override
+    public Response<List<JobResponse>> showJobPauseByRecruiterId(Long id) {
+        List<JobResponse> jobResponses = jobRepository.findAll().stream()
+                .filter(jobEntity -> jobEntity.getStatus() == TypeJob.PAUSE && jobEntity.getRecruiter().getId().equals(id))
                 .map(this::getJobResponse)
                 .collect(Collectors.toList());
         return Response.<List<JobResponse>>builder()
@@ -165,6 +189,17 @@ public class JobService implements JobIService {
     }
 
     @Override
+    public Response<List<JobResponse>> showJobExpiredByRecruiterId(Long id) {
+        List<JobResponse> jobResponses = jobRepository.findAll().stream()
+                .filter(jobEntity -> jobEntity.getStatus() == TypeJob.EXPIRED && jobEntity.getRecruiter().getId().equals(id))
+                .map(this::getJobResponse)
+                .collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(jobResponses)
+                .build();
+    }
+
+    @Override
     public Response<List<JobResponse>> showJobDenied() {
         List<JobResponse> jobResponses = jobRepository.findAll().stream()
                 .filter(jobEntity -> jobEntity.getStatus() == TypeJob.DENIED)
@@ -176,9 +211,31 @@ public class JobService implements JobIService {
     }
 
     @Override
+    public Response<List<JobResponse>> showJobDeniedByRecruiterId(Long id) {
+        List<JobResponse> jobResponses = jobRepository.findAll().stream()
+                .filter(jobEntity -> jobEntity.getStatus() == TypeJob.DENIED && jobEntity.getRecruiter().getId().equals(id))
+                .map(this::getJobResponse)
+                .collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(jobResponses)
+                .build();
+    }
+
+    @Override
     public Response<List<JobResponse>> showPending() {
         List<JobResponse> jobResponses = jobRepository.findAll().stream()
                 .filter(jobEntity -> jobEntity.getStatus() == TypeJob.PENDING)
+                .map(this::getJobResponse)
+                .collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(jobResponses)
+                .build();
+    }
+
+    @Override
+    public Response<List<JobResponse>> showPendingByRecruiterId(Long id) {
+        List<JobResponse> jobResponses = jobRepository.findAll().stream()
+                .filter(jobEntity -> jobEntity.getStatus() == TypeJob.PENDING && jobEntity.getRecruiter().getId().equals(id))
                 .map(this::getJobResponse)
                 .collect(Collectors.toList());
         return Response.<List<JobResponse>>builder()
@@ -525,7 +582,7 @@ public class JobService implements JobIService {
     }
 
     @Override
-    public Response<TreeSet<JobResponse>> showSuitableJob(Long id) {
+    public Response<TreeSet<JobResponse>> showSuitableJobByCandidateId(Long id) {
         TreeSet<JobResponse> listJob = new TreeSet<>();
         UserEntity candidate = userRepository.findById(id).get();
         Set<JobResponse> allJob = showJobOpen().getData().stream().collect(Collectors.toSet());

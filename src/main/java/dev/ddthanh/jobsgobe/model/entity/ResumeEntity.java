@@ -34,7 +34,7 @@ public class ResumeEntity {
     private String careerGoals;
     private Date createAt;
     private Date updateAt;
-    private Integer status;
+    private boolean isPublic;
     private Integer template;
 
     //Relationship

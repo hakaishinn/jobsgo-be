@@ -33,7 +33,7 @@ public class ResumeResponse {
     private String careerGoals;
     private Date createAt;
     private Date updateAt;
-    private Integer status;
+    private boolean isPublic;
     private Long candidateId;
     private Set<ResumeProSkillResponse> listResumeProSkill;
     private Set<ResumeWorkExperienceEntity> listWorkExperience;

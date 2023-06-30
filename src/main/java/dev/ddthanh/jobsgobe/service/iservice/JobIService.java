@@ -11,11 +11,16 @@ import java.util.TreeSet;
 public interface JobIService {
     public Response<List<JobResponse>> showAll();
     public Response<List<JobResponse>> showJobOpen();
+    public Response<List<JobResponse>> showJobOpenByRecruiterId(Long id);
     public Response<List<JobResponse>> showJobPause();
+    public Response<List<JobResponse>> showJobPauseByRecruiterId(Long id);
     public Response<List<JobResponse>> showJobExpired();
+    public Response<List<JobResponse>> showJobExpiredByRecruiterId(Long id);
     public Response<List<JobResponse>> showJobDenied();
+    public Response<List<JobResponse>> showJobDeniedByRecruiterId(Long id);
 
     public Response<List<JobResponse>> showPending();
+    public Response<List<JobResponse>> showPendingByRecruiterId(Long id);
 
     public Response<JobResponse> showOneJob(Long id);
     public Response<JobResponse> create(JobRequest request);
@@ -35,7 +40,7 @@ public interface JobIService {
 
     public Response<List<JobResponse>> showJobNoExp();
 
-    public Response<TreeSet<JobResponse>> showSuitableJob(Long id);
+    public Response<TreeSet<JobResponse>> showSuitableJobByCandidateId(Long id);
     public Response<TreeSet<JobResponse>> showJobFeatured();
     public Response<TreeSet<JobResponse>> showJobByRecruiterId(Long id);
 
