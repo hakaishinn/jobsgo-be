@@ -42,6 +42,7 @@ public class UserEntity implements UserDetails {
     private String facebook;
     private String twitter;
     private String linkedin;
+    private boolean isLock;
     @Column(columnDefinition = "text")
     private String description;
     @Enumerated(EnumType.STRING)

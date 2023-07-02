@@ -83,7 +83,7 @@ public class AuthService implements AuthIService {
                 .name(request.getName())
                 .role(Role.of(request.getRole()))
                 .build();
-        if(request.getRole().equals("RECRUITER")){
+        if(request.getRole().equals("RECRUITER") || request.getRole().equals("ADMIN")){
             user.setEmailCompany(request.getEmail());
         }
         userRepository.save(user);

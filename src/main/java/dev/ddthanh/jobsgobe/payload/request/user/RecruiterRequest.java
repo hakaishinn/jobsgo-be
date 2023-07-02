@@ -14,6 +14,9 @@ public class RecruiterRequest {
     private String shortName;
     private String phone;
     private String specificAddress;
+    private String ward;
+    private String district;
+    private String city;
     private String website;
     private String facebook;
     private String twitter;

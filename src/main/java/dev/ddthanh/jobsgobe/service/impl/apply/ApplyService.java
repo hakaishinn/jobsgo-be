@@ -109,6 +109,7 @@ public class ApplyService implements ApplyIService {
                 .jobId(getJobResponse(apply.getJob()).getId())
                 .applyId(apply.getId())
                 .applyAt(apply.getDate_apply())
+                .status(apply.getStatus())
                 .listResumeProSkill(resume.getListResumeProSkill().stream().map(proSkill ->
                         ResumeProSkillResponse.builder()
                                 .id(proSkill.getId())
@@ -342,5 +343,20 @@ public class ApplyService implements ApplyIService {
             applyRepository.deleteById(id);
         }
         return Response.<ApplyEntity>builder().build();
+    }
+
+    @Override
+    public Response<List<ResumeApplyResponse>> getAllResumeApplyByJobId(Long jobId) {
+        JobEntity job = jobRepository.findById(jobId).orElse(null);
+        List<ResumeApplyResponse> listResume = new ArrayList<>();
+        if(job != null){
+            for (ApplyEntity apply: job.getListApply()) {
+                listResume.add(getResumeApplyResponse(apply.getResume(), apply));
+            }
+        }
+        return Response.<List<ResumeApplyResponse>>builder()
+                .setMessage("Get list resume apply success")
+                .setData(listResume)
+                .build();
     }
 }

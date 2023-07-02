@@ -101,6 +101,9 @@ public class UserService implements UserIService {
             recruiter.setShortName(request.getShortName());
             recruiter.setPhone(request.getPhone());
             recruiter.setSpecificAddress(request.getSpecificAddress());
+            recruiter.setWards(request.getWard());
+            recruiter.setDistricts(request.getDistrict());
+            recruiter.setCity(request.getCity());
             recruiter.setWebsite(request.getWebsite());
             recruiter.setFacebook(request.getFacebook());
             recruiter.setTwitter(request.getTwitter());

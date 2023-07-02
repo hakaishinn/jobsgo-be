@@ -20,9 +20,9 @@ public class VnPayController {
 
     @PostMapping("/vnPay/url")
     @Secured("RECRUITER")
-    public Response<UrlResponse> getUrlVnPay(@RequestBody VNPayRequest request) {
+    public Response<UrlResponse> getUrlVnPay(@RequestBody VNPayRequest request, HttpServletRequest httpServletRequest) {
         try {
-            return vnPayService.getUrlVnPay(request);
+            return vnPayService.getUrlVnPay(request, httpServletRequest);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

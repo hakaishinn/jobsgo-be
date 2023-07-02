@@ -1,5 +1,7 @@
 package dev.ddthanh.jobsgobe.config;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
@@ -53,6 +55,19 @@ public class ConfigVNPay {
         }
         return digest;
     }
+    public static String getIpAddress(HttpServletRequest request) {
+        String ipAdress;
+        try {
+            ipAdress = request.getHeader("X-FORWARDED-FOR");
+            if (ipAdress == null) {
+                ipAdress = request.getLocalAddr();
+            }
+        } catch (Exception e) {
+            ipAdress = "Invalid IP:" + e.getMessage();
+        }
+        return ipAdress;
+    }
+
 
     //Util for VNPAY
     public static String hashAllFields(Map fields) {

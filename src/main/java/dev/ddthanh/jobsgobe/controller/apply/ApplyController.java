@@ -31,6 +31,11 @@ public class ApplyController {
     public Response<ApplyEntity> checkApply(@PathVariable Long jobId, @PathVariable Long candidateId) {
         return applyService.checkApply(jobId, candidateId);
     }
+    @GetMapping("/apply/resumes/jobs/{jobId}")
+    @Secured({"RECRUITER", "ADMIN"})
+    public Response<List<ResumeApplyResponse>> getAllResumeApplyByJobId(@PathVariable Long jobId) {
+        return applyService.getAllResumeApplyByJobId(jobId);
+    }
 
     @GetMapping("/apply/recruiter/{recruiterId}/resumes/apply")
     @Secured("RECRUITER")

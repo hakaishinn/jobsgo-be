@@ -20,4 +20,6 @@ public interface ApplyIService {
     public Response<ApplyEntity> Denied(Long id);
 
     public Response<ApplyEntity> deleteById(Long id);
+
+    public Response<List<ResumeApplyResponse>> getAllResumeApplyByJobId(Long jobId);
 }

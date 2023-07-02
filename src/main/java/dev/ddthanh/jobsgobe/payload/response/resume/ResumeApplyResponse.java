@@ -36,6 +36,7 @@ public class ResumeApplyResponse {
     private Long jobId;
     private Long applyId;
     private Date applyAt;
+    private Integer status;
     private Set<ResumeProSkillResponse> listResumeProSkill;
     private Set<ResumeWorkExperienceEntity> listWorkExperience;
     private Set<ResumeEducationEntity> listResumeEducation;

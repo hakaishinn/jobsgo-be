@@ -6,6 +6,7 @@ import dev.ddthanh.jobsgobe.payload.response.Response;
 import dev.ddthanh.jobsgobe.payload.response.vnPay.UrlResponse;
 import dev.ddthanh.jobsgobe.service.impl.usedPackage.UsedPackageService;
 import dev.ddthanh.jobsgobe.service.iservice.VNPayIService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class VNPayService implements VNPayIService {
     private final PaymentService paymentService;
     private final UsedPackageService usedPackageService;
     @Override
-    public Response<UrlResponse> getUrlVnPay(VNPayRequest request) throws UnsupportedEncodingException {
+    public Response<UrlResponse> getUrlVnPay(VNPayRequest request, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
         String vnp_Version = ConfigVNPay.vnp_Version;
         String vnp_Command = ConfigVNPay.vnp_Command;
         String orderType = ConfigVNPay.orderType;
@@ -32,6 +33,7 @@ public class VNPayService implements VNPayIService {
 
         String vnp_TxnRef = ConfigVNPay.getRandomNumber(8);
         String vnp_TmnCode = ConfigVNPay.vnp_TmnCode;
+//        String vnp_IpAddr = ConfigVNPay.getIpAddress(httpServletRequest);
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
@@ -39,6 +41,7 @@ public class VNPayService implements VNPayIService {
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
+
 
         if (bankCode != null && !bankCode.isEmpty()) {
             vnp_Params.put("vnp_BankCode", bankCode);
@@ -54,6 +57,7 @@ public class VNPayService implements VNPayIService {
             vnp_Params.put("vnp_Locale", "vn");
         }
         vnp_Params.put("vnp_ReturnUrl", ConfigVNPay.vnp_Returnurl);
+        vnp_Params.put("vnp_IpAddr", "127.1.9.1");
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
