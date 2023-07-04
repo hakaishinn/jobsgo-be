@@ -48,4 +48,8 @@ public class UserController {
     public Response<UserEntity> update(@PathVariable Long id, @RequestBody RecruiterRequest request) {
         return userService.updateRecruiter(id, request);
     }
+    @GetMapping("/public/users/forgotPassword/email/{email}")
+    public Response<UserEntity> forgotPassword(@PathVariable String email) {
+        return userService.forgotPassword(email);
+    }
 }

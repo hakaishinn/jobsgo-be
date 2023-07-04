@@ -28,10 +28,11 @@ public class AuthService implements AuthIService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+
     public Response<AuthResponse> authenticate(AuthRequest request) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         UserEntity user = userRepository.findByEmail(request.getEmail()).orElse(null);
-        if(user == null){
+        if (user == null) {
             return Response.<AuthResponse>builder()
                     .setMessage("Email không tồn tại")
                     .setStatus(HttpStatus.BAD_REQUEST)
@@ -39,7 +40,8 @@ public class AuthService implements AuthIService {
                     .setStatusCode(400)
                     .build();
         }
-        if(!passwordEncoder.matches(request.getPassword().trim(), user.getPassword())){
+
+        if (!passwordEncoder.matches(request.getPassword().trim(), user.getPassword())) {
             return Response.<AuthResponse>builder()
                     .setMessage("Mật khẩu không chính xác")
                     .setStatus(HttpStatus.BAD_REQUEST)
@@ -47,6 +49,7 @@ public class AuthService implements AuthIService {
                     .setStatusCode(400)
                     .build();
         }
+
         authManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getEmail(),
                 request.getPassword()
@@ -67,6 +70,49 @@ public class AuthService implements AuthIService {
                 .build();
     }
 
+    @Override
+    public Response<AuthResponse> authenticateGoogleAndFacebook(RegisterRequest request) {
+        UserEntity user = userRepository.findByEmail(request.getEmail()).orElse(null);
+        if (user != null) {
+            String accessToken = jwtService.generateToken(user);
+            String refreshToken = jwtService.generateRefreshToken(user);
+            return Response.<AuthResponse>builder()
+                    .setMessage("Login successful")
+                    .setData(AuthResponse.builder()
+                            .setAccessToken(accessToken)
+                            .setRefreshToken(refreshToken)
+                            .setName(user.getName())
+                            .setUserId(user.getId())
+                            .setEmail(user.getEmail())
+                            .setImage(user.getImage())
+                            .setRoles(List.of(user.getRole().name()))
+                            .build())
+                    .build();
+        } else {
+            UserEntity userRegister = UserEntity.builder()
+                    .email(request.getEmail().trim().toLowerCase())
+                    .name(request.getName())
+                    .role(Role.of(request.getRole()))
+                    .build();
+            userRepository.save(userRegister);
+
+            String accessToken = jwtService.generateToken(userRegister);
+            String refreshToken = jwtService.generateRefreshToken(userRegister);
+            return Response.<AuthResponse>builder()
+                    .setMessage("Login successful")
+                    .setData(AuthResponse.builder()
+                            .setAccessToken(accessToken)
+                            .setRefreshToken(refreshToken)
+                            .setName(userRegister.getName())
+                            .setUserId(userRegister.getId())
+                            .setEmail(userRegister.getEmail())
+                            .setImage(userRegister.getImage())
+                            .setRoles(List.of(userRegister.getRole().name()))
+                            .build())
+                    .build();
+        }
+    }
+
 
     public Response<BaseResponse> register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -83,7 +129,7 @@ public class AuthService implements AuthIService {
                 .name(request.getName())
                 .role(Role.of(request.getRole()))
                 .build();
-        if(request.getRole().equals("RECRUITER") || request.getRole().equals("ADMIN")){
+        if (request.getRole().equals("RECRUITER") || request.getRole().equals("ADMIN")) {
             user.setEmailCompany(request.getEmail());
         }
         userRepository.save(user);

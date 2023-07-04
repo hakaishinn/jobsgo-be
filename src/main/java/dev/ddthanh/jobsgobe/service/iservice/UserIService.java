@@ -19,4 +19,6 @@ public interface UserIService {
     public Response<UserEntity> updateRecruiter(Long id, RecruiterRequest request);
 
     public Response<UserEntity> getAdmin();
+
+    public Response<UserEntity> forgotPassword(String email);
 }

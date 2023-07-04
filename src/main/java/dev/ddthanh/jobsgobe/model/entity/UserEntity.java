@@ -25,9 +25,7 @@ public class UserEntity implements UserDetails {
     private Long id;
     @Column(unique = true, nullable = false)
     private String email;
-    @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
     private String name;
     @Column(columnDefinition = "text")
     private String image;

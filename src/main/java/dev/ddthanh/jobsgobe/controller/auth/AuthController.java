@@ -28,4 +28,9 @@ public class AuthController {
         Response<AuthResponse> response = authenticationService.authenticate(request);
         return response;
     }
+    @PostMapping("/loginGoogleAndFacebook")
+    public Response<AuthResponse> authenticateGoogleAndFacebook(@RequestBody RegisterRequest request) {
+        Response<AuthResponse> response = authenticationService.authenticateGoogleAndFacebook(request);
+        return response;
+    }
 }
