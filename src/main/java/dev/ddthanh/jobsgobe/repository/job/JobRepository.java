@@ -26,6 +26,8 @@ public interface JobRepository extends JpaRepository<JobEntity, Long> {
     public List<JobEntity> findJobNoExp();
     @Query(value = "select j from JobEntity j where j.status = 0 order by j.createAt desc")
     public List<JobEntity> findJobNew();
+    @Query(value = "select j from JobEntity j where j.status = 0 and j.natureOfWork=:naturedOfWork")
+    public List<JobEntity> findJobByNatureOfWork(String naturedOfWork);
 
 
 }

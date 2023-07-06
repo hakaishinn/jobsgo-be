@@ -649,4 +649,15 @@ public class JobService implements JobIService {
                 .build();
     }
 
+    @Override
+    public Response<List<JobResponse>> getJobByNatureOfWork(String natureOfWork) {
+        List<JobResponse> listJob = jobRepository.findJobByNatureOfWork(natureOfWork)
+                .stream()
+                .map(this::getJobResponse).collect(Collectors.toList());
+        return Response.<List<JobResponse>>builder()
+                .setData(listJob)
+                .setMessage("get job by nature of work success")
+                .build();
+    }
+
 }

@@ -21,4 +21,6 @@ public interface UserIService {
     public Response<UserEntity> getAdmin();
 
     public Response<UserEntity> forgotPassword(String email);
+
+    public Response<List<UserEntity>> searchRecruiter(String keyword);
 }

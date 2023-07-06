@@ -41,8 +41,7 @@ public class JobController {
         Response<List<JobResponse>> jobResponse = jobService.showJobOpen();
         return jobResponse;
     }
-    @GetMapping("/jobs/open/recruiter/{id}")
-    @Secured({"RECRUITER", "ADMIN"})
+    @GetMapping("/public/jobs/open/recruiter/{id}")
     public Response<List<JobResponse>> showJobsOpenByRecruiterId(@PathVariable Long id) {
         Response<List<JobResponse>> jobResponse = jobService.showJobOpenByRecruiterId(id);
         return jobResponse;
@@ -99,6 +98,7 @@ public class JobController {
         Response<List<JobResponse>> jobResponse = jobService.showPendingByRecruiterId(id);
         return jobResponse;
     }
+
     @GetMapping("/public/jobs/{id}")
     public Response<JobResponse> showOneJob(@PathVariable Long id) {
         Response<JobResponse> jobResponse = jobService.showOneJob(id);
@@ -190,5 +190,9 @@ public class JobController {
     @GetMapping("/public/jobs/featured")
     public Response<TreeSet<JobResponse>> showJobFeatured(){
         return jobService.showJobFeatured();
+    }
+    @GetMapping("/public/jobs/natureOfWork")
+    public Response<List<JobResponse>> showJobByNatureOfWork(@RequestParam(name = "natureOfWork", required = true) String natureOfWork){
+        return jobService.getJobByNatureOfWork(natureOfWork);
     }
 }

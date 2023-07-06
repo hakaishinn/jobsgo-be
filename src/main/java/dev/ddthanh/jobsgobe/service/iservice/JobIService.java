@@ -45,4 +45,5 @@ public interface JobIService {
     public Response<TreeSet<JobResponse>> showJobByRecruiterId(Long id);
 
     public Response<List<JobResponse>> getJobNew();
+    public Response<List<JobResponse>> getJobByNatureOfWork(String natureOfWork);
 }

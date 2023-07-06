@@ -52,4 +52,9 @@ public class UserController {
     public Response<UserEntity> forgotPassword(@PathVariable String email) {
         return userService.forgotPassword(email);
     }
+
+    @GetMapping("/public/searchRecruiter")
+    public Response<List<UserEntity>> searchRecruiter(@RequestParam(name="keyword")String keyword){
+        return userService.searchRecruiter(keyword);
+    }
 }

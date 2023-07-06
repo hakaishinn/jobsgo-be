@@ -41,7 +41,7 @@ public class UserService implements UserIService {
     public Response<List<UserEntity>> getAllRecruiter() {
         List<UserEntity> listRecruiter = userRepository.findAll()
                 .stream()
-                .filter(user -> user.getRole().name() == "RECRUITER")
+                .filter(user -> user.getRole().name() == "RECRUITER" && !user.isLock())
                 .collect(Collectors.toList());
         return Response.<List<UserEntity>>builder()
                 .setMessage("Get list recruiter success")
@@ -55,7 +55,7 @@ public class UserService implements UserIService {
         List<UserEntity> result = new ArrayList<>();
         for (UserEntity recruiter: listRecruiter) {
             for (UsedPackageEntity used: recruiter.getListUsedPackage()) {
-                if(used.getPackageEntity().getId() == 2 && used.isStatus()){
+                if(used.getPackageEntity().getId() == 2 && used.isStatus() && !recruiter.isLock()){
                     result.add(recruiter);
                     break;
                 }
@@ -171,6 +171,15 @@ public class UserService implements UserIService {
                 .setSuccess(false)
                 .setStatusCode(400)
                 .setMessage("Reset Password failed")
+                .build();
+    }
+
+    @Override
+    public Response<List<UserEntity>> searchRecruiter(String keyword) {
+        List<UserEntity> listRecruiter = userRepository.searchRecruiter(keyword);
+        return Response.<List<UserEntity>>builder()
+                .setData(listRecruiter)
+                .setMessage("Get recruiter success")
                 .build();
     }
 
