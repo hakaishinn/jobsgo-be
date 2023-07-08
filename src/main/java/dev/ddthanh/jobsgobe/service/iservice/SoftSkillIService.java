@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface SoftSkillIService {
     public Response<List<SoftSkillEntity>> getAll();
+    Response<SoftSkillEntity> createSoftskill(SoftSkillEntity request);
+
+    Response<SoftSkillEntity> updateSoftskill(Long id, SoftSkillEntity request);
+
 }

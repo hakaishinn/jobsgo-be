@@ -6,10 +6,8 @@ import dev.ddthanh.jobsgobe.payload.response.Response;
 import dev.ddthanh.jobsgobe.service.impl.LanguageService;
 import dev.ddthanh.jobsgobe.service.impl.SoftSkillService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,17 @@ public class LanguageController {
     @GetMapping("/public/languages")
     public Response<List<LanguageEntity>> getAll() {
         return languageService.getAll();
+    }
+    @PostMapping("/admin/create-language")
+    @Secured("ADMIN")
+    public Response<LanguageEntity> createLanguage(@RequestBody LanguageEntity request){
+        Response<LanguageEntity> response = languageService.createLanguage(request);
+        return response;
+    }
+    @PutMapping("/admin/update-language/{id}")
+    @Secured("ADMIN")
+    public Response<LanguageEntity> updateLanguage (@PathVariable Long id,@RequestBody LanguageEntity request){
+        Response<LanguageEntity> response = languageService.updateLanguage(id, request);
+        return response;
     }
 }

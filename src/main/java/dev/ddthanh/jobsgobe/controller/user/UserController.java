@@ -63,4 +63,15 @@ public class UserController {
     public Response<List<UserEntity>> searchRecruiter(@RequestParam(name="keyword")String keyword){
         return userService.searchRecruiter(keyword);
     }
+
+    @PutMapping("/users/recruiter-lock/{id}")
+    @Secured("ADMIN")
+    public Response<UserEntity> disableUser(@PathVariable Long id){
+        Response<UserEntity> userResponse = userService.disableUser(id);
+        return  userResponse;
+    }
+    @GetMapping("/public/candidates")
+    public Response<List<UserEntity>> getAllCandidate() {
+        return userService.getAllCandidate();
+    }
 }

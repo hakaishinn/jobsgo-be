@@ -29,7 +29,7 @@ public class ProSkillEntity {
     @ManyToMany(mappedBy = "listProSkill")
     private List<JobEntity> listJob; // for job
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "career_id")
     private CareerEntity career;

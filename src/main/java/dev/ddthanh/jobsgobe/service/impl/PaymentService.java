@@ -11,7 +11,9 @@ import dev.ddthanh.jobsgobe.service.iservice.PaymentIService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +49,31 @@ public class PaymentService implements PaymentIService {
         return Response.<PaymentEntity>builder()
                 .setMessage("Update status payment success")
                 .setData(payment)
+                .build();
+    }
+
+    @Override
+    public Response<List<PaymentEntity>> showAllPayment() {
+        List<PaymentEntity> listPayment = paymentRepository.findAll();
+        return Response.<List<PaymentEntity>>builder()
+                .setMessage("Success")
+                .setData(listPayment)
+                .build();
+    }
+
+    @Override
+    public Response<List<PaymentEntity>> showPaymentById(Long id) {
+        List<PaymentEntity> listPaymentId = new ArrayList<>();
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if(userEntity != null){
+            listPaymentId = paymentRepository.findByIdUser(id);
+            return Response.<List<PaymentEntity>>builder()
+                    .setMessage("Success")
+                    .setData(listPaymentId)
+                    .build();
+        }
+        return Response.<List<PaymentEntity>>builder()
+                .setMessage("Thất bại")
                 .build();
     }
 

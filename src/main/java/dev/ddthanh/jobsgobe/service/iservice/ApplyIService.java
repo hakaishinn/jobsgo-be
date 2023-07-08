@@ -22,4 +22,6 @@ public interface ApplyIService {
     public Response<ApplyEntity> deleteById(Long id);
 
     public Response<List<ResumeApplyResponse>> getAllResumeApplyByJobId(Long jobId);
+
+    public Response<List<ApplyEntity>> getAllCandidateApprove(Integer status);
 }

@@ -51,6 +51,18 @@ public class UserService implements UserIService {
     }
 
     @Override
+    public Response<List<UserEntity>> getAllCandidate() {
+        List<UserEntity> listRecruiter = userRepository.findAll()
+                .stream()
+                .filter(user -> user.getRole().name() == "CANDIDATE")
+                .collect(Collectors.toList());
+        return Response.<List<UserEntity>>builder()
+                .setMessage("Get list recruiter success")
+                .setData(listRecruiter)
+                .build();
+    }
+
+    @Override
     public Response<List<UserEntity>> getAllRecruiterFeatured() {
         List<UserEntity> listRecruiter = getAllRecruiter().getData();
         List<UserEntity> result = new ArrayList<>();
@@ -209,6 +221,25 @@ public class UserService implements UserIService {
                 .setStatus(HttpStatus.BAD_REQUEST)
                 .setSuccess(false)
                 .setStatusCode(400)
+                .build();
+    }
+
+    @Override
+    public Response<UserEntity> disableUser(Long id) {
+        UserEntity user = userRepository.findById(id).orElse(null);
+        if(user == null ){
+            return Response.<UserEntity>builder()
+                    .setMessage("User doesn't exist")
+                    .setStatus(HttpStatus.BAD_REQUEST)
+                    .setSuccess(false)
+                    .setStatusCode(400)
+                    .build();
+        }
+        user.setLock(true);
+        userRepository.save(user);
+        return Response.<UserEntity>builder()
+                .setMessage("Vô hiệu tài khoản thành công")
+                .setData(user)
                 .build();
     }
 

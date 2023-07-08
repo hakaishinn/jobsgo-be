@@ -45,6 +45,10 @@ public class UserEntity implements UserDetails {
     private String github;
     private boolean isLock;
     @Column(columnDefinition = "text")
+    private String contentEmailAccept;
+    @Column(columnDefinition = "text")
+    private String contentEmailDenied;
+    @Column(columnDefinition = "text")
     private String description;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -55,7 +59,7 @@ public class UserEntity implements UserDetails {
     @OneToMany(targetEntity = ResumeEntity.class, mappedBy = "candidate")
     private Set<ResumeEntity> listResume;//for resume
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(targetEntity = JobEntity.class, mappedBy = "recruiter")
     private Set<JobEntity> listJob;//for job
 

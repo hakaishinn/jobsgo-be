@@ -84,4 +84,10 @@ public class ApplyController {
     public Response<ApplyEntity> deleteById(@PathVariable Long id){
         return applyService.deleteById(id);
     }
+
+    @GetMapping("/admin/approve/{status}")
+    @Secured("ADMIN")
+    public Response<List<ApplyEntity>> getAllCandidateApprove(@PathVariable Integer status){
+        return  applyService.getAllCandidateApprove(status);
+    }
 }

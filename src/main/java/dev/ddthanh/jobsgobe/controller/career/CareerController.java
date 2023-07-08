@@ -6,6 +6,7 @@ import dev.ddthanh.jobsgobe.payload.response.Response;
 import dev.ddthanh.jobsgobe.service.impl.CareerService;
 import dev.ddthanh.jobsgobe.service.impl.LanguageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,5 +21,18 @@ public class CareerController {
     @GetMapping("/public/careers")
     public Response<List<CareerEntity>> getAll(@RequestParam int size) {
         return careerService.getAll(size);
+    }
+
+    @PostMapping("/admin/create-career")
+    @Secured("ADMIN")
+    public Response<CareerEntity> createCareer(@RequestBody CareerEntity request){
+        Response<CareerEntity> response = careerService.createCareer(request);
+        return response;
+    }
+    @PutMapping("/admin/update-career/{id}")
+    @Secured("ADMIN")
+    public Response<CareerEntity> updateCareer (@PathVariable Long id,@RequestBody CareerEntity request){
+        Response<CareerEntity> response = careerService.createCareer(id, request);
+        return response;
     }
 }

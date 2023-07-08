@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface LanguageIService {
     public Response<List<LanguageEntity>> getAll();
+    public Response<LanguageEntity> createLanguage(LanguageEntity entity);
+    public Response<LanguageEntity> updateLanguage(Long id , LanguageEntity entity);
+
 }

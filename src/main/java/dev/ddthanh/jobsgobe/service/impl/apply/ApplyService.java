@@ -359,4 +359,18 @@ public class ApplyService implements ApplyIService {
                 .setData(listResume)
                 .build();
     }
+
+    @Override
+    public Response<List<ApplyEntity>> getAllCandidateApprove(Integer status) {
+        List<ApplyEntity> applyApprove = new ArrayList<>();
+        if(status != null){
+            applyApprove = applyRepository.showAllCandidateApprove(status);
+
+        }
+        return Response.<List<ApplyEntity>>builder()
+                .setMessage("Get data success")
+                .setData(applyApprove)
+                .build();
+
+    }
 }
