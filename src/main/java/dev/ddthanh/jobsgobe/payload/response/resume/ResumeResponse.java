@@ -26,6 +26,10 @@ public class ResumeResponse {
     private String positionApply;
     private String phone;
     private String email;
+    private String github;
+    private String facebook;
+    private String twitter;
+    private String linkedIn;
     private String address;
     private Double currentSalary;
     private Double desiredSalary;
@@ -34,6 +38,7 @@ public class ResumeResponse {
     private Date createAt;
     private Date updateAt;
     private boolean isPublic;
+    private Integer template;
     private Long candidateId;
     private Set<ResumeProSkillResponse> listResumeProSkill;
     private Set<ResumeWorkExperienceEntity> listWorkExperience;

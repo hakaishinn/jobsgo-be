@@ -1,6 +1,7 @@
 package dev.ddthanh.jobsgobe.controller.user;
 
 import dev.ddthanh.jobsgobe.model.entity.UserEntity;
+import dev.ddthanh.jobsgobe.payload.request.user.CandidateRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.PasswordRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.RecruiterRequest;
 import dev.ddthanh.jobsgobe.payload.response.Response;
@@ -45,8 +46,13 @@ public class UserController {
     }
     @PutMapping("/users/recruiter/{id}")
     @Secured({"RECRUITER", "ADMIN"})
-    public Response<UserEntity> update(@PathVariable Long id, @RequestBody RecruiterRequest request) {
+    public Response<UserEntity> updateRecruiter(@PathVariable Long id, @RequestBody RecruiterRequest request) {
         return userService.updateRecruiter(id, request);
+    }
+    @PutMapping("/users/candidate/{id}")
+    @Secured("CANDIDATE")
+    public Response<UserEntity> updateCandidate(@PathVariable Long id, @RequestBody CandidateRequest request) {
+        return userService.updateCandidate(id, request);
     }
     @GetMapping("/public/users/forgotPassword/email/{email}")
     public Response<UserEntity> forgotPassword(@PathVariable String email) {

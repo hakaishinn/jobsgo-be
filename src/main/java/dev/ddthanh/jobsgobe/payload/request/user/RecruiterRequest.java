@@ -20,6 +20,6 @@ public class RecruiterRequest {
     private String website;
     private String facebook;
     private String twitter;
-    private String linkedin;
+    private String linkedIn;
     private String description;
 }

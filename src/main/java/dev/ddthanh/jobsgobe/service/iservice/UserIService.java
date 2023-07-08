@@ -1,6 +1,7 @@
 package dev.ddthanh.jobsgobe.service.iservice;
 
 import dev.ddthanh.jobsgobe.model.entity.UserEntity;
+import dev.ddthanh.jobsgobe.payload.request.user.CandidateRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.PasswordRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.RecruiterRequest;
 import dev.ddthanh.jobsgobe.payload.response.Response;
@@ -23,4 +24,6 @@ public interface UserIService {
     public Response<UserEntity> forgotPassword(String email);
 
     public Response<List<UserEntity>> searchRecruiter(String keyword);
+
+    public Response<UserEntity> updateCandidate(Long id, CandidateRequest request);
 }

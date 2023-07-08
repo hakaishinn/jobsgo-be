@@ -45,7 +45,7 @@ public class ApplyService implements ApplyIService {
                 .website(userEntity.getWebsite())
                 .facebook(userEntity.getFacebook())
                 .twitter(userEntity.getTwitter())
-                .linkedin(userEntity.getLinkedin())
+                .linkedin(userEntity.getLinkedIn())
                 .description(userEntity.getDescription())
                 .build();
     }
@@ -225,7 +225,7 @@ public class ApplyService implements ApplyIService {
     }
 
     @Override
-    public Response<List<ResumeApplyResponse>> getAllResumeApply(Long recruiterId) {
+    public Response<List<ResumeApplyResponse>> getAllResumeApplyByRecruiterId(Long recruiterId) {
         List<ResumeApplyResponse> listResumeApply = new ArrayList<>();
         UserEntity recruiter = userRepository.findById(recruiterId).orElse(null);
         if(recruiter != null){
@@ -244,7 +244,7 @@ public class ApplyService implements ApplyIService {
     }
 
     @Override
-    public Response<List<ResumeApplyResponse>> getAllResumeApprove(Long recruiterId) {
+    public Response<List<ResumeApplyResponse>> getAllResumeApproveByRecruiterId(Long recruiterId) {
         List<ResumeApplyResponse> listResumeApprove = new ArrayList<>();
         UserEntity recruiter = userRepository.findById(recruiterId).orElse(null);
         if(recruiter != null){
@@ -263,7 +263,7 @@ public class ApplyService implements ApplyIService {
     }
 
     @Override
-    public Response<List<ResumeApplyResponse>> getAllResumeConsider(Long recruiterId) {
+    public Response<List<ResumeApplyResponse>> getAllResumeConsiderByRecruiterId(Long recruiterId) {
         List<ResumeApplyResponse> listResumeConsider = new ArrayList<>();
         UserEntity recruiter = userRepository.findById(recruiterId).orElse(null);
         if(recruiter != null){
@@ -282,7 +282,7 @@ public class ApplyService implements ApplyIService {
     }
 
     @Override
-    public Response<List<ResumeApplyResponse>> getAllResumeDenied(Long recruiterId) {
+    public Response<List<ResumeApplyResponse>> getAllResumeDeniedByRecruiterId(Long recruiterId) {
         List<ResumeApplyResponse> listResumeDenied = new ArrayList<>();
         UserEntity recruiter = userRepository.findById(recruiterId).orElse(null);
         if(recruiter != null){

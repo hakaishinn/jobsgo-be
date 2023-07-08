@@ -3,6 +3,7 @@ package dev.ddthanh.jobsgobe.service.impl.user;
 import dev.ddthanh.jobsgobe.model.entity.UsedPackageEntity;
 import dev.ddthanh.jobsgobe.model.entity.UserEntity;
 import dev.ddthanh.jobsgobe.payload.request.EmailRequest;
+import dev.ddthanh.jobsgobe.payload.request.user.CandidateRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.PasswordRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.RecruiterRequest;
 import dev.ddthanh.jobsgobe.payload.response.Response;
@@ -122,7 +123,7 @@ public class UserService implements UserIService {
             recruiter.setWebsite(request.getWebsite());
             recruiter.setFacebook(request.getFacebook());
             recruiter.setTwitter(request.getTwitter());
-            recruiter.setLinkedin(request.getLinkedin());
+            recruiter.setLinkedIn(request.getLinkedIn());
             recruiter.setDescription(request.getDescription());
 
             userRepository.save(recruiter);
@@ -180,6 +181,34 @@ public class UserService implements UserIService {
         return Response.<List<UserEntity>>builder()
                 .setData(listRecruiter)
                 .setMessage("Get recruiter success")
+                .build();
+    }
+
+    @Override
+    public Response<UserEntity> updateCandidate(Long id, CandidateRequest request) {
+        UserEntity candidate = userRepository.findById(id).orElse(null);
+        if(candidate != null){
+            candidate.setName(request.getFullName());
+            candidate.setImage(request.getImage());
+            candidate.setBirthDay(request.getBirthDay());
+            candidate.setPhone(request.getPhone());
+            candidate.setSpecificAddress(request.getAddress());
+            candidate.setFacebook(request.getFacebook());
+            candidate.setTwitter(request.getTwitter());
+            candidate.setLinkedIn(request.getLinkedIn());
+            candidate.setGithub(request.getGithub());
+
+            userRepository.save(candidate);
+            return Response.<UserEntity>builder()
+                    .setMessage("Update success")
+                    .setData(candidate)
+                    .build();
+        }
+        return Response.<UserEntity>builder()
+                .setMessage("Candidate doesn't exist")
+                .setStatus(HttpStatus.BAD_REQUEST)
+                .setSuccess(false)
+                .setStatusCode(400)
                 .build();
     }
 

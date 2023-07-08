@@ -39,26 +39,26 @@ public class ApplyController {
 
     @GetMapping("/apply/recruiter/{recruiterId}/resumes/apply")
     @Secured("RECRUITER")
-    public Response<List<ResumeApplyResponse>> getAllResumeApply(@PathVariable Long recruiterId) {
-        return applyService.getAllResumeApply(recruiterId);
+    public Response<List<ResumeApplyResponse>> getAllResumeApplyByRecruiterId(@PathVariable Long recruiterId) {
+        return applyService.getAllResumeApplyByRecruiterId(recruiterId);
     }
 
     @GetMapping("/apply/recruiter/{recruiterId}/resumes/approve")
     @Secured("RECRUITER")
-    public Response<List<ResumeApplyResponse>> getAllResumeApprove(@PathVariable Long recruiterId) {
-        return applyService.getAllResumeApprove(recruiterId);
+    public Response<List<ResumeApplyResponse>> getAllResumeApproveByRecruiterId(@PathVariable Long recruiterId) {
+        return applyService.getAllResumeApproveByRecruiterId(recruiterId);
     }
 
     @GetMapping("/apply/recruiter/{recruiterId}/resumes/consider")
     @Secured("RECRUITER")
-    public Response<List<ResumeApplyResponse>> getAllResumeConsider(@PathVariable Long recruiterId) {
-        return applyService.getAllResumeConsider(recruiterId);
+    public Response<List<ResumeApplyResponse>> getAllResumeConsiderByRecruiterId(@PathVariable Long recruiterId) {
+        return applyService.getAllResumeConsiderByRecruiterId(recruiterId);
     }
 
     @GetMapping("/apply/recruiter/{recruiterId}/resumes/denied")
     @Secured("RECRUITER")
-    public Response<List<ResumeApplyResponse>> getAllResumeDenied(@PathVariable Long recruiterId) {
-        return applyService.getAllResumeDenied(recruiterId);
+    public Response<List<ResumeApplyResponse>> getAllResumeDeniedByRecruiterId(@PathVariable Long recruiterId) {
+        return applyService.getAllResumeDeniedByRecruiterId(recruiterId);
     }
 
     @PutMapping("/apply/approve/resume/{id}")

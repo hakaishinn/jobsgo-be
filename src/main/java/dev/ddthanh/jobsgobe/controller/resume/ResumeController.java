@@ -50,6 +50,16 @@ public class ResumeController {
         Response<ResumeResponse> resumeResponse = resumeService.update(id, request);
         return resumeResponse;
     }
+    @PutMapping("/resumes/{id}/template/{template}")
+    @Secured("CANDIDATE")
+    public  void changeTemplate(@PathVariable Long id, @PathVariable Integer template){
+        resumeService.changeTemplate(id, template);
+    }
+    @PutMapping("/resumes/{id}/public/{status}")
+    @Secured("CANDIDATE")
+    public  void changeIsPublic(@PathVariable Long id, @PathVariable boolean status){
+        resumeService.changeIsPublic(id, status);
+    }
     @DeleteMapping("/resumes/{id}")
     @Secured("CANDIDATE")
     public  Response<ResumeResponse> delete(@PathVariable Long id){

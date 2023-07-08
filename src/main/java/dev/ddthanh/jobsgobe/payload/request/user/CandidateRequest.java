@@ -11,9 +11,12 @@ import java.util.Date;
 @Builder
 public class CandidateRequest {
     private String fullName;
+    private String image;
     private Date birthDay;
     private String phone;
+    private String address;
     private String facebook;
     private String twitter;
-    private String linkedin;
+    private String linkedIn;
+    private String github;
 }

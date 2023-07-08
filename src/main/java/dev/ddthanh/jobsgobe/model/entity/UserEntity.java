@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +30,7 @@ public class UserEntity implements UserDetails {
     private String name;
     @Column(columnDefinition = "text")
     private String image;
+    private Date birthDay;
     private String phone;
     private String city;
     private String districts;
@@ -39,7 +41,8 @@ public class UserEntity implements UserDetails {
     private String website;
     private String facebook;
     private String twitter;
-    private String linkedin;
+    private String linkedIn;
+    private String github;
     private boolean isLock;
     @Column(columnDefinition = "text")
     private String description;
@@ -59,6 +62,10 @@ public class UserEntity implements UserDetails {
     @JsonIgnore
     @OneToMany(targetEntity = PaymentEntity.class, mappedBy = "recruiter")
     private Set<PaymentEntity> listPayment;//for payment
+
+    @JsonIgnore
+    @OneToMany(targetEntity = AttachmentsEntity.class, mappedBy = "candidate")
+    private Set<AttachmentsEntity> listAttachment;//for payment
 
     @JsonIgnore
     @OneToMany(targetEntity = UsedPackageEntity.class, mappedBy = "recruiter")

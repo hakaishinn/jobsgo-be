@@ -52,6 +52,10 @@ public class ResumeService implements ResumeIService {
                 .positionApply(resume.getPositionApply())
                 .phone(resume.getPhone())
                 .email(resume.getEmail())
+                .facebook(resume.getFacebook())
+                .twitter(resume.getTwitter())
+                .linkedIn(resume.getLinkedIn())
+                .github(resume.getGithub())
                 .address(resume.getAddress())
                 .currentSalary(resume.getCurrentSalary())
                 .desiredSalary(resume.getDesiredSalary())
@@ -60,6 +64,7 @@ public class ResumeService implements ResumeIService {
                 .createAt(resume.getCreateAt())
                 .updateAt(resume.getUpdateAt())
                 .isPublic(resume.isPublic())
+                .template(resume.getTemplate())
                 .candidateId(resume.getCandidate().getId())
                 .listResumeProSkill(resume.getListResumeProSkill().stream().map(proSkill ->
                         ResumeProSkillResponse.builder()
@@ -172,6 +177,10 @@ public class ResumeService implements ResumeIService {
                 .positionApply(request.getPositionApply())
                 .phone(request.getPhone())
                 .email(request.getEmail())
+                .facebook(request.getFacebook())
+                .twitter(request.getTwitter())
+                .linkedIn(request.getLinkedIn())
+                .github(request.getGithub())
                 .address(request.getAddress())
                 .currentSalary(request.getCurrentSalary())
                 .desiredSalary(request.getDesiredSalary())
@@ -180,7 +189,7 @@ public class ResumeService implements ResumeIService {
                 .createAt(new Date())
                 .isPublic(true)
                 .candidate(candidate)
-                .template(1)
+                .template(2)
                 .listResumeHobby(new HashSet<>())
                 .listResumeProSkill(new HashSet<>())
                 .listWorkExperience(new HashSet<>())
@@ -300,11 +309,18 @@ public class ResumeService implements ResumeIService {
                 .positionApply(request.getPositionApply())
                 .phone(request.getPhone())
                 .email(request.getEmail())
+                .facebook(request.getFacebook())
+                .twitter(request.getTwitter())
+                .linkedIn(request.getLinkedIn())
+                .github(request.getGithub())
                 .address(request.getAddress())
                 .currentSalary(request.getCurrentSalary())
                 .desiredSalary(request.getDesiredSalary())
                 .introduce(request.getIntroduce())
                 .careerGoals(request.getCareerGoals())
+                .createAt(resumeOld.getCreateAt())
+                .template(resumeOld.getTemplate())
+                .isPublic(resumeOld.isPublic())
                 .updateAt(new Date())
                 .candidate(candidate)
                 .listResumeHobby(new HashSet<>())
@@ -491,6 +507,20 @@ public class ResumeService implements ResumeIService {
     @Override
     public void deleteResumeHobbyById(Long id) {
         resumeHobbyRepository.deleteById(id);
+    }
+
+    @Override
+    public void changeTemplate(Long id, Integer template) {
+        ResumeEntity resume = resumeRepository.findById(id).orElse(null);
+        resume.setTemplate(template);
+        resumeRepository.save(resume);
+    }
+
+    @Override
+    public void changeIsPublic(Long id, boolean status) {
+        ResumeEntity resume = resumeRepository.findById(id).orElse(null);
+        resume.setPublic(status);
+        resumeRepository.save(resume);
     }
 
     public Response<List<ResumeResponse>> searchCandidate(String position, String specialized, String language, String degree) {

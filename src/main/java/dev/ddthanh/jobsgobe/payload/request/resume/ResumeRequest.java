@@ -19,6 +19,10 @@ public class ResumeRequest {
     private String positionApply;
     private String phone;
     private String email;
+    private String github;
+    private String facebook;
+    private String twitter;
+    private String linkedIn;
     private String address;
     private Double currentSalary;
     private Double desiredSalary;

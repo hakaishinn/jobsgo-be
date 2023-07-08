@@ -48,7 +48,7 @@ public class JobService implements JobIService {
                 .website(userEntity.getWebsite())
                 .facebook(userEntity.getFacebook())
                 .twitter(userEntity.getTwitter())
-                .linkedin(userEntity.getLinkedin())
+                .linkedin(userEntity.getLinkedIn())
                 .description(userEntity.getDescription())
                 .build();
     }

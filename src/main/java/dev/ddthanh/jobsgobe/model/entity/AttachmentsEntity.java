@@ -25,4 +25,8 @@ public class AttachmentsEntity {
     @JoinColumn(name = "resume_id")
     private ResumeEntity resume;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "candidate_id")
+    private UserEntity candidate;
 }

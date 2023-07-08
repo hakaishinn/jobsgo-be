@@ -10,10 +10,10 @@ import java.util.List;
 public interface ApplyIService {
     public Response<ApplyEntity> apply(BaseApply request);
     public  Response<ApplyEntity> checkApply(Long jobId, Long candidateId);
-    public Response<List<ResumeApplyResponse>> getAllResumeApply(Long recruiterId);
-    public Response<List<ResumeApplyResponse>> getAllResumeApprove(Long recruiterId);
-    public Response<List<ResumeApplyResponse>> getAllResumeConsider(Long recruiterId);
-    public Response<List<ResumeApplyResponse>> getAllResumeDenied(Long recruiterId);
+    public Response<List<ResumeApplyResponse>> getAllResumeApplyByRecruiterId(Long recruiterId);
+    public Response<List<ResumeApplyResponse>> getAllResumeApproveByRecruiterId(Long recruiterId);
+    public Response<List<ResumeApplyResponse>> getAllResumeConsiderByRecruiterId(Long recruiterId);
+    public Response<List<ResumeApplyResponse>> getAllResumeDeniedByRecruiterId(Long recruiterId);
 
     public Response<ApplyEntity> Approve(Long id);
     public Response<ApplyEntity> Consider(Long id);
