@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,14 +17,17 @@ public class ResumeEducationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
     private String nameSchool;
-    @Column(nullable = false)
     private String majors;
-    @Column(nullable = false)
-    private String certificate;
-    @Column(nullable = false)
+    private String degree;
     private Integer graduationYear;
-    @Column(columnDefinition = "text", nullable = false)
+    private boolean statusEducation;
+    @Column(columnDefinition = "text")
     private String description;
+
+    @JsonIgnore
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resume_id")
+    private ResumeEntity resume;
 }

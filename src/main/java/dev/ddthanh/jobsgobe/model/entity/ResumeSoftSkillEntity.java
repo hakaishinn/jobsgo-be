@@ -16,6 +16,15 @@ public class ResumeSoftSkillEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
     private Integer prowess;
+    private String name;
+
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resume_id")
+    private ResumeEntity resume;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "soft_skill_id")
+    private SoftSkillEntity softSkill;
 }

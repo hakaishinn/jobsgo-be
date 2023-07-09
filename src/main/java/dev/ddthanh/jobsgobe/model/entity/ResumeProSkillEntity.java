@@ -1,12 +1,10 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,8 +14,15 @@ public class ResumeProSkillEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String nameSkill;
-    @Column(nullable = false)
     private Double yearExperience;
+    private String name;
+
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resume_id")
+    private ResumeEntity resume;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pro_skill_id")
+    private ProSkillEntity proSkill;
 }

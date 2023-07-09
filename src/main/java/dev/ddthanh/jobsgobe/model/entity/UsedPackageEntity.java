@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,11 +15,23 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "tbl_used_package")
-public class UsedPackage {
+public class UsedPackageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String vnpTxnRef;
     private Date date_start;
     private Date date_end;
-    private Integer status;
+    private boolean status;
+
+    //Relationship
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recruiter_id")
+    private UserEntity recruiter;
+
+//    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "package_id")
+    private PackageEntity packageEntity;
 }
