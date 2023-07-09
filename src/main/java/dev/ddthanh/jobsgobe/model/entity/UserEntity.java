@@ -44,6 +44,8 @@ public class UserEntity implements UserDetails {
     private String linkedIn;
     private String github;
     private boolean isLock;
+    private Date createAt;
+    private Date updateAt;
     @Column(columnDefinition = "text")
     private String contentEmailAccept;
     @Column(columnDefinition = "text")

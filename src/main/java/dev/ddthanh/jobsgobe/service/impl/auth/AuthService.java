@@ -1,5 +1,6 @@
 package dev.ddthanh.jobsgobe.service.impl.auth;
 
+import dev.ddthanh.jobsgobe.common.constants.EmailDefault;
 import dev.ddthanh.jobsgobe.common.enums.Role;
 import dev.ddthanh.jobsgobe.model.entity.UserEntity;
 import dev.ddthanh.jobsgobe.payload.request.auth.AuthRequest;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -124,6 +126,7 @@ public class AuthService implements AuthIService {
                     .build();
         }
         UserEntity user = UserEntity.builder()
+                .createAt(new Date())
                 .email(request.getEmail().trim().toLowerCase())
                 .password(passwordEncoder.encode(request.getPassword().trim()))
                 .name(request.getName())
@@ -131,6 +134,11 @@ public class AuthService implements AuthIService {
                 .build();
         if (request.getRole().equals("RECRUITER") || request.getRole().equals("ADMIN")) {
             user.setEmailCompany(request.getEmail());
+        }
+
+        if(request.getRole().equals("RECRUITER")){
+            user.setContentEmailAccept(EmailDefault.accept);
+            user.setContentEmailDenied(EmailDefault.denied);
         }
         userRepository.save(user);
         return Response.<BaseResponse>builder()

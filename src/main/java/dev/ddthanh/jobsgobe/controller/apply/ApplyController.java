@@ -33,7 +33,7 @@ public class ApplyController {
     }
     @GetMapping("/apply/resumes/jobs/{jobId}")
     @Secured({"RECRUITER", "ADMIN"})
-    public Response<List<ResumeApplyResponse>> getAllResumeApplyByJobId(@PathVariable Long jobId) {
+    public Response<List<ResumeApplyResponse>> getAllResumeApplyByJobId(@PathVariable Long jobId, @PathVariable Integer status) {
         return applyService.getAllResumeApplyByJobId(jobId);
     }
 

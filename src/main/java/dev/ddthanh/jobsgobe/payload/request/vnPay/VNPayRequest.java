@@ -10,7 +10,7 @@ import lombok.Setter;
 public class VNPayRequest {
     private Long packageId;
     private Long recruiterId;
-    private Long quantity;
+    private Integer quantity;
     private String orderDesc;
     private String bankCode;
     private Long price;

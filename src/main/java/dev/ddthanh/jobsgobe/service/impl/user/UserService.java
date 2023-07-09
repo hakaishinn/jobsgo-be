@@ -4,6 +4,7 @@ import dev.ddthanh.jobsgobe.model.entity.UsedPackageEntity;
 import dev.ddthanh.jobsgobe.model.entity.UserEntity;
 import dev.ddthanh.jobsgobe.payload.request.EmailRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.CandidateRequest;
+import dev.ddthanh.jobsgobe.payload.request.user.MailRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.PasswordRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.RecruiterRequest;
 import dev.ddthanh.jobsgobe.payload.response.Response;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -137,6 +139,7 @@ public class UserService implements UserIService {
             recruiter.setTwitter(request.getTwitter());
             recruiter.setLinkedIn(request.getLinkedIn());
             recruiter.setDescription(request.getDescription());
+            recruiter.setUpdateAt(new Date());
 
             userRepository.save(recruiter);
             return Response.<UserEntity>builder()
@@ -209,6 +212,7 @@ public class UserService implements UserIService {
             candidate.setTwitter(request.getTwitter());
             candidate.setLinkedIn(request.getLinkedIn());
             candidate.setGithub(request.getGithub());
+            candidate.setUpdateAt(new Date());
 
             userRepository.save(candidate);
             return Response.<UserEntity>builder()
@@ -251,5 +255,50 @@ public class UserService implements UserIService {
 
         // this will convert any number sequence into 6 character.
         return String.format("%06d", number);
+    }
+
+    @Override
+    public Response<UserEntity> updateContentEmail(Long id, MailRequest request) {
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if(userEntity != null ){
+            if(request.getType().equals("acceptMail")){
+                userEntity.setContentEmailAccept(request.getEmail());
+                userRepository.save(userEntity);
+                return  Response.<UserEntity>builder()
+                        .setMessage("Success")
+                        .setData(userEntity)
+                        .build();
+            }else{
+                userEntity.setContentEmailDenied(request.getEmail());
+                userRepository.save(userEntity);
+                return  Response.<UserEntity>builder()
+                        .setMessage("Success")
+                        .setData(userEntity)
+                        .build();
+            }
+        }
+
+        return  Response.<UserEntity>builder()
+                .setMessage("Thất bại")
+                .setStatus(HttpStatus.BAD_REQUEST)
+                .setSuccess(false)
+                .setStatusCode(400)
+                .build();
+    }
+    @Override
+    public Response<UserEntity> getContentEmail(Long id ) {
+        UserEntity userEntity = userRepository.findById(id).orElse(null);
+        if(userEntity != null ){
+            return  Response.<UserEntity>builder()
+                    .setMessage("Success")
+                    .setData(userEntity)
+                    .build();
+        }
+        return  Response.<UserEntity>builder()
+                .setMessage("Thất bại")
+                .setStatus(HttpStatus.BAD_REQUEST)
+                .setSuccess(false)
+                .setStatusCode(400)
+                .build();
     }
 }

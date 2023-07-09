@@ -7,6 +7,7 @@ import dev.ddthanh.jobsgobe.payload.response.resume.ResumeResponse;
 import dev.ddthanh.jobsgobe.repository.resume.ResumeRepository;
 
 import java.util.List;
+import java.util.TreeSet;
 
 public interface ResumeIService {
     public Response<List<ResumeResponse>> showAll();

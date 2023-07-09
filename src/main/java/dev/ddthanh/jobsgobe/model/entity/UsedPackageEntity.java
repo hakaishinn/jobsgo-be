@@ -30,7 +30,7 @@ public class UsedPackageEntity {
     @JoinColumn(name = "recruiter_id")
     private UserEntity recruiter;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "package_id")
     private PackageEntity packageEntity;

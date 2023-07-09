@@ -2,6 +2,7 @@ package dev.ddthanh.jobsgobe.controller.user;
 
 import dev.ddthanh.jobsgobe.model.entity.UserEntity;
 import dev.ddthanh.jobsgobe.payload.request.user.CandidateRequest;
+import dev.ddthanh.jobsgobe.payload.request.user.MailRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.PasswordRequest;
 import dev.ddthanh.jobsgobe.payload.request.user.RecruiterRequest;
 import dev.ddthanh.jobsgobe.payload.response.Response;
@@ -73,5 +74,19 @@ public class UserController {
     @GetMapping("/public/candidates")
     public Response<List<UserEntity>> getAllCandidate() {
         return userService.getAllCandidate();
+    }
+
+    @PutMapping ("/recruiter/acceptMail/{id}")
+    @Secured("RECRUITER")
+    public Response<UserEntity> updateContentEmail(@PathVariable Long id,@RequestBody MailRequest request){
+        Response<UserEntity> response = userService.updateContentEmail(id, request);
+        return  response;
+    }
+
+    @GetMapping ("/recruiter/mail/{id}")
+    @Secured("RECRUITER")
+    public Response<UserEntity> getContentEmail(@PathVariable Long id){
+        Response<UserEntity> response = userService.getContentEmail(id);
+        return  response;
     }
 }

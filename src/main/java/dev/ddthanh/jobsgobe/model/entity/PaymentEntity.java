@@ -19,7 +19,7 @@ public class PaymentEntity {
     private Long id;
     private String vnpTxnRef;
     private Date dateCreate;
-    private Long quantity;
+    private Integer quantity;
     private Long total;
     private boolean status;
 

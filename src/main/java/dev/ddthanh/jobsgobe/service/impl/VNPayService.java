@@ -98,7 +98,7 @@ public class VNPayService implements VNPayIService {
 
         //Create Payment and used
         paymentService.create(request.getPackageId(), request.getRecruiterId(), request.getQuantity(), request.getPrice(), vnp_TxnRef);
-        usedPackageService.create(request.getPackageId(), request.getRecruiterId(), vnp_TxnRef);
+        usedPackageService.create(request.getPackageId(), request.getRecruiterId(), vnp_TxnRef, request.getQuantity());
 
         return Response.<UrlResponse>builder()
                 .setMessage("Get url VNPay success")
@@ -120,6 +120,8 @@ public class VNPayService implements VNPayIService {
             }
         } else {
             try {
+                paymentService.deleteByVnpTxnRef(vnpTxnRef);
+                usedPackageService.deleteByVnpTxnRef(vnpTxnRef);
                 response.sendRedirect("http://localhost:3000/recruiter/buyPackage?status=no");
             } catch (IOException e) {
                 throw new RuntimeException(e);

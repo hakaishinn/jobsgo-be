@@ -29,13 +29,13 @@ public class UsedPackageService implements UsedPackageIService {
         return c.getTime();
     }
     @Override
-    public Response<UsedPackageEntity> create(Long packageId, Long recruiterId, String vnpTxnRef) {
+    public Response<UsedPackageEntity> create(Long packageId, Long recruiterId, String vnpTxnRef, Integer quantity) {
         PackageEntity packageEntity = packageRepository.findById(packageId).orElse(null);
         UserEntity recruiter = userRepository.findById(recruiterId).orElse(null);
 
         UsedPackageEntity usedPackageEntity = UsedPackageEntity.builder()
                 .date_start(new Date())
-                .date_end(getExpiredDate(new Date(), packageEntity.getDuration()))
+                .date_end(getExpiredDate(new Date(), packageEntity.getDuration() * quantity))
                 .status(false)
                 .vnpTxnRef(vnpTxnRef)
                 .recruiter(recruiter)
@@ -91,5 +91,11 @@ public class UsedPackageService implements UsedPackageIService {
                 usedPackageEntity.setStatus(false);
                 usedPackageRepository.save(usedPackageEntity);
         }
+    }
+
+    @Override
+    public void deleteByVnpTxnRef(String vnpTxnRef) {
+        UsedPackageEntity usedPackage = usedPackageRepository.findByVnpTxnRef(vnpTxnRef);
+        usedPackageRepository.deleteById(usedPackage.getId());
     }
 }
