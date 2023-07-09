@@ -114,7 +114,7 @@ public class VNPayService implements VNPayIService {
             try {
                 paymentService.updateStatus(vnpTxnRef, true);
                 usedPackageService.updateStatus(vnpTxnRef, true);
-                response.sendRedirect("http://localhost:3000/recruiter/buyPackage?status=ok");
+                response.sendRedirect("https://ddt-jobsgo.vercel.app/recruiter/buyPackage?status=ok");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -122,7 +122,7 @@ public class VNPayService implements VNPayIService {
             try {
                 paymentService.deleteByVnpTxnRef(vnpTxnRef);
                 usedPackageService.deleteByVnpTxnRef(vnpTxnRef);
-                response.sendRedirect("http://localhost:3000/recruiter/buyPackage?status=no");
+                response.sendRedirect("https://ddt-jobsgo.vercel.app/recruiter/buyPackage?status=no");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -18,7 +18,7 @@ spring:
     serialization:
       fail-on-empty-beans: false
   datasource:
-    url: jdbc:mysql://sql6.freesqldatabase.com:3306/sql6631529
+    url: jdbc:mysql://sql6.freesqldatabase.com:3306/sql6631529?enabledTLSProtocols=TLSv1.2
     username: sql6631529
     password: sj9tzwUUje
     driver-class-name: com.mysql.cj.jdbc.Driver
